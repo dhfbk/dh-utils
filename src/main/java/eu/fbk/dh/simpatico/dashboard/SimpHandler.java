@@ -6,6 +6,7 @@ import com.google.common.collect.HashMultimap;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
+import edu.stanford.nlp.pipeline.JSONOutputter;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
 import eu.fbk.dkm.pikes.tintop.annotators.PikesAnnotations;
@@ -332,6 +333,11 @@ public class SimpHandler extends HttpHandler {
 
         // Call common code!
 //        toJSonCommon(g, keywordArray, topicList, locale, serviceTime, cost, annotateParameter);
+
+        String originalJson = new JSONOutputter().print(annotation, pipeline);
+
+        g.writeFieldName("raw");
+        g.writeRawValue(originalJson);
 
         g.writeFieldName("timing");
         g.writeStartObject();

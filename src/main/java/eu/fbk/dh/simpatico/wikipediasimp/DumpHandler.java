@@ -17,7 +17,7 @@ import java.util.LinkedList;
  * Created by alessio on 06/07/16.
  */
 
-public class DumpHandler extends DefaultHandler {
+abstract public class DumpHandler extends DefaultHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DumpHandler.class);
     private BufferedWriter writer;
@@ -123,6 +123,10 @@ public class DumpHandler extends DefaultHandler {
         }
     }
 
+    abstract boolean isGoodPage(String title);
+
+    abstract boolean commentMeansSimplification(String comment);
+
     /**
      * Receive notification of the end of an element.
      * <p>
@@ -155,37 +159,7 @@ public class DumpHandler extends DefaultHandler {
             isContributor = false;
         }
         if (qName.equals("title")) {
-            String title = buffer.toString();
-            if (title.startsWith("Categoria:")) {
-                isGoodPage = false;
-            }
-            if (title.startsWith("Discussioni utente:")) {
-                isGoodPage = false;
-            }
-            if (title.startsWith("Utente:")) {
-                isGoodPage = false;
-            }
-            if (title.startsWith("Wikipedia:")) {
-                isGoodPage = false;
-            }
-            if (title.startsWith("File:")) {
-                isGoodPage = false;
-            }
-            if (title.startsWith("Portale:")) {
-                isGoodPage = false;
-            }
-            if (title.startsWith("Aiuto:")) {
-                isGoodPage = false;
-            }
-            if (title.startsWith("Template:")) {
-                isGoodPage = false;
-            }
-            if (title.startsWith("Discussione:")) {
-                isGoodPage = false;
-            }
-            if (title.startsWith("Discussioni MediaWiki:")) {
-                isGoodPage = false;
-            }
+            isGoodPage = isGoodPage(buffer.toString());
 
 //            if (isGoodPage) {
 //                LOGGER.info("TITLE: " + buffer.toString());
@@ -199,25 +173,7 @@ public class DumpHandler extends DefaultHandler {
             if (comment.toLowerCase().contains("semplif")) {
                 comment = comment.replaceAll("\\s+", " ").trim();
 
-                boolean doIt = true;
-                if (comment.startsWith("Ha protetto")) {
-                    doIt = false;
-                }
-                if (comment.startsWith("Nuova pagina")) {
-                    doIt = false;
-                }
-                if (comment.contains("procedura semplificata")) {
-                    doIt = false;
-                }
-                if (comment.contains("[[WP:RB|Annullata]]")) {
-                    doIt = false;
-                }
-                if (!comment.replaceAll("/\\*.*\\*./", "").contains("semplif")) {
-                    doIt = false;
-                }
-                if (comment.contains("template")) {
-                    doIt = false;
-                }
+                boolean doIt = commentMeansSimplification(comment);
 
                 if (doIt) {
                     StringBuffer header = new StringBuffer();

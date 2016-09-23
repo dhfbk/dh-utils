@@ -18,7 +18,7 @@ public class HeidelTest {
 
     public static void main(String[] args) {
         HeidelTimeStandalone heidelTimeStandalone = new HeidelTimeStandalone(Language.ITALIAN, DocumentType.NEWS,
-                OutputType.TIMEML, "/Users/alessio/Documents/scripts/simpatico-dashboard/config.props");
+                OutputType.XMI, "/Users/alessio/Documents/scripts/simpatico-dashboard/config.props");
 
         try {
             String process = heidelTimeStandalone.process(

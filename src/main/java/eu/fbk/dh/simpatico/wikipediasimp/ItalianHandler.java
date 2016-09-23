@@ -1,8 +1,5 @@
 package eu.fbk.dh.simpatico.wikipediasimp;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 
 /**
@@ -11,67 +8,71 @@ import java.io.File;
 
 public class ItalianHandler extends DumpHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ItalianHandler.class);
-
     public ItalianHandler(File outputPath) {
         super(outputPath);
     }
 
     @Override boolean isGoodPage(String title) {
-        boolean isGoodPage = true;
         if (title.startsWith("Categoria:")) {
-            isGoodPage = false;
+            return false;
         }
         if (title.startsWith("Discussioni utente:")) {
-            isGoodPage = false;
+            return false;
         }
         if (title.startsWith("Utente:")) {
-            isGoodPage = false;
+            return false;
         }
         if (title.startsWith("Wikipedia:")) {
-            isGoodPage = false;
+            return false;
         }
         if (title.startsWith("File:")) {
-            isGoodPage = false;
+            return false;
         }
         if (title.startsWith("Portale:")) {
-            isGoodPage = false;
+            return false;
         }
         if (title.startsWith("Aiuto:")) {
-            isGoodPage = false;
+            return false;
         }
         if (title.startsWith("Template:")) {
-            isGoodPage = false;
+            return false;
         }
         if (title.startsWith("Discussione:")) {
-            isGoodPage = false;
+            return false;
         }
         if (title.startsWith("Discussioni MediaWiki:")) {
-            isGoodPage = false;
+            return false;
         }
-        return isGoodPage;
+        return true;
     }
 
-    @Override boolean commentMeansSimplification(String comment) {
-        boolean doIt = true;
+    @Override String commentMeansSimplification(String comment) {
+
+        if (!comment.toLowerCase().contains("semplif")) {
+            return null;
+        }
+
+        comment = comment.replaceAll("\\s+", " ").trim();
+
         if (comment.startsWith("Ha protetto")) {
-            doIt = false;
+            return null;
         }
         if (comment.startsWith("Nuova pagina")) {
-            doIt = false;
+            return null;
         }
         if (comment.contains("procedura semplificata")) {
-            doIt = false;
+            return null;
         }
         if (comment.contains("[[WP:RB|Annullata]]")) {
-            doIt = false;
+            return null;
         }
         if (!comment.replaceAll("/\\*.*\\*./", "").contains("semplif")) {
-            doIt = false;
+            return null;
         }
         if (comment.contains("template")) {
-            doIt = false;
+            return null;
         }
-        return doIt;
+
+        return comment;
     }
 }

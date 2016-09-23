@@ -125,7 +125,7 @@ abstract public class DumpHandler extends DefaultHandler {
 
     abstract boolean isGoodPage(String title);
 
-    abstract boolean commentMeansSimplification(String comment);
+    abstract String commentMeansSimplification(String comment);
 
     /**
      * Receive notification of the end of an element.
@@ -170,22 +170,20 @@ abstract public class DumpHandler extends DefaultHandler {
         }
         if (qName.equals("comment")) {
             comment = buffer.toString();
-            if (comment.toLowerCase().contains("semplif")) {
-                comment = comment.replaceAll("\\s+", " ").trim();
 
-                boolean doIt = commentMeansSimplification(comment);
+            comment = commentMeansSimplification(comment);
 
-                if (doIt) {
-                    StringBuffer header = new StringBuffer();
-                    header.append("#");
-                    header.append(revisionID);
-                    header.append(" COMMENT: ");
-                    header.append(comment);
+            if (comment != null) {
+                StringBuffer header = new StringBuffer();
+                header.append("#");
+                header.append(revisionID);
+                header.append(" COMMENT: ");
+                header.append(comment);
 
-                    commentHeader = header.toString();
-                    isSimplifying = isGoodPage;
-                }
+                commentHeader = header.toString();
+                isSimplifying = isGoodPage;
             }
+
             isComment = false;
         }
         if (qName.equals("text")) {

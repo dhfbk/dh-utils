@@ -34,9 +34,14 @@ public class MyWikiModel extends WikiModel {
 		super(configuration, locale, imageBaseURL, linkBaseURL);
 	}
 
-	public MyWikiModel(Configuration configuration, Locale locale, ResourceBundle resourceBundle, INamespace namespace, String imageBaseURL, String linkBaseURL) {
-		super(configuration, locale, resourceBundle, namespace, imageBaseURL, linkBaseURL);
+	public MyWikiModel(Configuration configuration, ResourceBundle resourceBundle,
+			INamespace namespace, String imageBaseURL, String linkBaseURL) {
+		super(configuration, resourceBundle, namespace, imageBaseURL, linkBaseURL);
 	}
+
+//	public MyWikiModel(Configuration configuration, Locale locale, ResourceBundle resourceBundle, INamespace namespace, String imageBaseURL, String linkBaseURL) {
+//		super(configuration, locale, resourceBundle, namespace, imageBaseURL, linkBaseURL);
+//	}
 
 	/**
 	 * Substitute the template name by the template content and parameters and

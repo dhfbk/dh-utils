@@ -10,7 +10,8 @@ import edu.stanford.nlp.pipeline.JSONOutputter;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
 import eu.fbk.dkm.pikes.tintop.annotators.PikesAnnotations;
-import eu.fbk.dkm.pikes.tintop.annotators.raw.LinkingTag;
+import eu.fbk.dkm.pikes.twm.LinkingTag;
+import eu.fbk.dkm.pikes.twm.TWMAnnotations;
 import eu.fbk.dkm.utils.FrequencyHashSet;
 import org.apache.log4j.Logger;
 import org.glassfish.grizzly.http.server.HttpHandler;
@@ -173,7 +174,7 @@ public class SimpHandler extends HttpHandler {
 
             for (CoreLabel token : sentence.get(CoreAnnotations.TokensAnnotation.class)) {
 
-                LinkingTag tag = token.get(PikesAnnotations.DBpediaSpotlightAnnotation.class);
+                LinkingTag tag = token.get(TWMAnnotations.DBpediaSpotlightAnnotation.class);
                 String linkingPage = tag == null ? "" : tag.getPage();
                 String linkingPageImage = (tag == null || tag.getImage() == null) ? "" : tag.getImage();
                 String pos = token.get(CoreAnnotations.PartOfSpeechAnnotation.class);

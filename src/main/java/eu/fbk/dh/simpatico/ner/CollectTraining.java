@@ -6,7 +6,7 @@ import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
 import eu.fbk.dh.simpatico.wikipediasimp.WikipediaText;
-import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.utils.core.CommandLine;
 import org.fbk.cit.hlt.thewikimachine.ExtractorParameters;
 import org.fbk.cit.hlt.thewikimachine.xmldump.AbstractWikipediaExtractor;
 import org.jsoup.safety.Whitelist;

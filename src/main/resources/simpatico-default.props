@@ -1,0 +1,16 @@
+en.annotators = tokenize, ssplit, pos, lemma, readability
+en.readability.language = en
+en.customAnnotatorClass.readability = eu.fbk.dh.tint.readability.ReadabilityAnnotator
+
+es.annotators = spanish, readability
+es.spanish.posModel = /Users/alessio/Documents/scripts/ixa-pipe-pos/src/main/resources/morph-models-1.5.0/es/es-pos-perceptron-autodict01-ancora-2.0.bin
+es.spanish.lemmaModel = /Users/alessio/Documents/scripts/ixa-pipe-pos/src/main/resources/morph-models-1.5.0/es/es-lemma-perceptron-ancora-2.0.bin
+es.readability.language = es
+es.customAnnotatorClass.spanish = eu.fbk.dh.spanish.BasicAnnotator
+es.customAnnotatorClass.readability = eu.fbk.dh.tint.readability.ReadabilityAnnotator
+
+it.annotators = ita_toksent, pos, ita_morpho, ita_lemma, readability
+it.readability.language = it
+it.readability.glossario.parse = yes
+it.readability.glossario.use = yes
+it.readability.glossario.stanford.annotators = ita_toksent, pos, ita_morpho, ita_lemma

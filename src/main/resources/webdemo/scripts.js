@@ -24,8 +24,11 @@ var gaugeLevelsOptions = {
 };
 var posChartOptions = {
     width: 500,
-    height: 250,
-    orientation: "vertical"
+    height: 300,
+    orientation: "vertical",
+    legend: {
+        position: 'none'
+    }
 };
 
 function escapeAttrNodeValue(value) {
@@ -74,29 +77,39 @@ $(function () {
 
                 $("#part1").slideUp(500);
 
+                var language = data.readability.language;
+                $(".show-" + language).show();
+                // Show language
+
                 if (dashboard) {
+
+                    var tooLongSentences = data.readability.tooLongSentences;
+                    var textLen = 0;
+
                     $.each(data.sentences, function (i, item) {
-                        var p = $("<p></p>");
+                            var p = $("<p></p>");
 
-                        var text = item.text;
-                        item.descriptions.reverse().forEach(function (value) {
-                            var begin = value.begin - item.begin;
-                            var end = value.end - item.begin;
-                            var formID = "form" + value.begin;
-                            text = text.replace(new RegExp('(.{' + begin + '})(.{' + (end - begin) + '})'),
-                                '$1<a data-content="' + value.text + '" title="' + value.form +
-                                '" tabindex="0" role="button" class="my-popover label label-primary" id="' +
-                                formID + '">$2</a>');
-                        });
+                            var text = item.text;
+                            textLen += text.length;
+                            // item.descriptions.reverse().forEach(function (value) {
+                            //     var begin = value.begin - item.begin;
+                            //     var end = value.end - item.begin;
+                            //     var formID = "form" + value.begin;
+                            //     text = text.replace(new RegExp('(.{' + begin + '})(.{' + (end - begin) + '})'),
+                            //         '$1<a data-content="' + value.text + '" title="' + value.form +
+                            //         '" tabindex="0" role="button" class="my-popover label label-primary" id="' +
+                            //         formID + '">$2</a>');
+                            // });
 
-                        p.append(text);
-                        p.attr("id", "sentence" + i);
-                        p.addClass("sentence");
-                        if (item.tooLong) {
-                            p.addClass("too-long")
+                            p.append(text);
+                            p.attr("id", "sentence" + i);
+                            p.addClass("sentence");
+                            if ($.inArray(item.index, tooLongSentences) > -1) {
+                                p.addClass("too-long")
+                            }
+                            $("#parsed-text").append(p);
                         }
-                        $("#parsed-text").append(p);
-                    });
+                    );
 
                     $("#part2").tooltip({
                         selector: '.too-long',
@@ -109,15 +122,28 @@ $(function () {
 
                     // Gauges
 
-                    var gulpease = data.statistics.gulpease;
-                    var level1 = 100.0 * data.statistics.level1WordSize / data.statistics.contentEasyWordSize;
-                    var level2 = 100.0 * data.statistics.level2WordSize / data.statistics.contentWordSize;
-                    var level3 = 100.0 * data.statistics.level3WordSize / data.statistics.contentWordSize;
+                    var mainValue = 0;
+                    var mainName = "";
+                    if (language == "it") {
+                        mainValue = data.readability.measures.gulpease;
+                        mainName = "Gulpease";
+                    }
+                    if (language == "en") {
+                        mainValue = data.readability.measures.flesch;
+                        mainName = "Flesch";
+                    }
+                    if (language == "es") {
+                        mainValue = data.readability.measures['flesch-szigriszt'];
+                        mainName = "Flesch-Szigriszt";
+                    }
+                    var level1 = (isNaN(data.readability.measures.level1) ? 0 : data.readability.measures.level1);
+                    var level2 = (isNaN(data.readability.measures.level2) ? 0 : data.readability.measures.level2);
+                    var level3 = (isNaN(data.readability.measures.level3) ? 0 : data.readability.measures.level3);
 
                     var gulpeaseChart = new google.visualization.Gauge(document.getElementById('gauge-gulpease'));
                     gulpeaseChart.draw(google.visualization.arrayToDataTable([
                         ['Label', 'Value'],
-                        ['Gulpease', gulpease]
+                        [mainName, mainValue]
                     ]), gaugeOptions);
 
                     var levelsChart = new google.visualization.Gauge(document.getElementById('gauge-levels'));
@@ -132,10 +158,11 @@ $(function () {
 
                     var ul = $('<ul></ul>');
                     ul.addClass("list-group");
-                    addLI(ul, "Sentences:", data.statistics.sentenceCount);
-                    addLI(ul, "Tokens:", data.statistics.tokenCount);
-                    addLI(ul, "Words:", data.statistics.wordCount);
-                    addLI(ul, "Content words:", data.statistics.contentWordSize);
+                    addLI(ul, "Language:", data.readability.language);
+                    addLI(ul, "Sentences:", data.readability.sentenceCount);
+                    addLI(ul, "Tokens:", data.readability.tokenCount);
+                    addLI(ul, "Words:", data.readability.wordCount);
+                    addLI(ul, "Content words:", data.readability.contentWordSize);
                     $("#statistics").append(ul);
 
                     // Pos chart
@@ -143,11 +170,17 @@ $(function () {
                     var posData = new google.visualization.DataTable();
                     posData.addColumn("string", "POS tag");
                     posData.addColumn("number", "Count");
-                    $.each(data.statistics.spos, function (index, val) {
-                        posData.addRow([index, val]);
+                    $.each(data.readability.genericPosDescription, function (key, value) {
+                        var num = data.readability.genericPosStats.support[key];
+                        posData.addRow([value, num]);
                     });
                     var posChart = new google.visualization.ColumnChart(document.getElementById('pos-stats'));
                     posChart.draw(posData, posChartOptions);
+
+                    if (textLen < 1000) {
+                        var posDiv = $("#pos-distribution");
+                        posDiv.appendTo($("#l-col"));
+                    }
 
                     $("#part2").show();
                 }
@@ -155,7 +188,6 @@ $(function () {
                 // Stanford stuff
 
                 if (linguisticAnnotations) {
-                    data = data.raw;
 
                     if (typeof data == undefined || data.sentences == undefined) {
                         alert("Failed to reach server!");
@@ -190,8 +222,8 @@ $(function () {
                         //                  div id      annotator     field_in_data                          label
                         createAnnotationDiv('pos', 'pos', 'pos', 'Part-of-Speech');
                         // createAnnotationDiv('lemma',    'lemma',      'lemma',                               'Lemmas'                  );
-                        createAnnotationDiv('ner', 'ner', 'ner', 'Named Entity Recognition');
-                        createAnnotationDiv('deps', 'depparse', 'basic-dependencies', 'Basic Dependencies');
+                        // createAnnotationDiv('ner', 'ner', 'ner', 'Named Entity Recognition');
+                        // createAnnotationDiv('deps', 'depparse', 'basic-dependencies', 'Basic Dependencies');
                         // createAnnotationDiv('deps2',    'depparse',   'enhanced-plus-plus-dependencies',     'Enhanced++ Dependencies' );
                         // createAnnotationDiv('openie',   'openie',     'openie',                              'Open IE'                 );
                         // createAnnotationDiv('coref',    'coref',      'corefs',                              'Coreference'             );
@@ -206,7 +238,10 @@ $(function () {
                 }
 
             }
-        });
+        })
+        ;
         return false;
-    });
-});
+    })
+    ;
+})
+;

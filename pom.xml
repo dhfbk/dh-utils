@@ -34,28 +34,20 @@
             <version>2.6.2</version>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>2.7.4</version>
-        </dependency>
-        <dependency>
             <groupId>edu.stanford.nlp</groupId>
             <artifactId>stanford-corenlp</artifactId>
             <version>3.6.0</version>
         </dependency>
         <dependency>
+            <groupId>edu.stanford.nlp</groupId>
+            <artifactId>stanford-corenlp</artifactId>
+            <version>3.6.0</version>
+            <classifier>models</classifier>
+        </dependency>
+        <dependency>
             <groupId>org.glassfish.grizzly</groupId>
             <artifactId>grizzly-http-server</artifactId>
             <version>2.3.21</version>
-        </dependency>
-        <dependency>
-            <groupId>eu.fbk.pikes</groupId>
-            <artifactId>pikes-tintop</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>eu.fbk.dkm.utils</groupId>
-            <artifactId>utils</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -90,11 +82,34 @@
         <dependency>
             <groupId>org.fbk.cit.hlt</groupId>
             <artifactId>thewikimachine</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.opennlp</groupId>
+                    <artifactId>opennlp-tools</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>info.bliki.wiki</groupId>
             <artifactId>bliki-core</artifactId>
             <version>3.0.19</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.fbk.dh</groupId>
+            <artifactId>tint-runner</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.fbk.pikes</groupId>
+            <artifactId>pikes-twm</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.fbk.dh</groupId>
+            <artifactId>spanish</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>runtime</scope>
         </dependency>
 
         <!-- Log stuff -->

@@ -1,23 +1,20 @@
 package eu.fbk.dh.simpatico.dashboard;
 
-import com.google.common.collect.HashMultimap;
-import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
-import edu.stanford.nlp.ling.CoreAnnotations;
-import edu.stanford.nlp.ling.CoreLabel;
-import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
-import eu.fbk.dkm.pikes.tintop.annotators.Defaults;
-import eu.fbk.dkm.utils.CommandLine;
+import eu.fbk.dh.tint.runner.TintPipeline;
+import eu.fbk.utils.core.CommandLine;
+import eu.fbk.utils.core.PropertiesUtils;
 import org.glassfish.grizzly.http.server.CLStaticHttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.server.NetworkListener;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nullable;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
+import java.util.Properties;
 
 /**
  * Created with IntelliJ IDEA.
@@ -29,152 +26,62 @@ import java.util.*;
 
 public class SimpServer {
 
-    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(SimpServer.class);
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(SimpServer.class);
 
     public static final String DEFAULT_HOST = "0.0.0.0";
     public static final Integer DEFAULT_PORT = 8011;
 
-    public SimpServer(String host, Integer port, String configFile) {
-        logger.info("starting " + host + "\t" + port + " (" + new Date() + ")...");
+    public SimpServer(String host, Integer port, @Nullable String configFile) {
+        LOGGER.info("Starting " + host + "\t" + port + " (" + new Date() + ")...");
 
         final HttpServer httpServer = new HttpServer();
-        NetworkListener nl = new NetworkListener("pikes-ita", host, port);
+        NetworkListener nl = new NetworkListener("dashboard", host, port);
         httpServer.addListener(nl);
-
-//        Properties props2 = new Properties();
-//        props2.setProperty("annotators", "tokenize, ssplit, pos, ita_morpho, ita_lemma");
-//        props2.setProperty("customAnnotatorClass.ita_lemma", "eu.fbk.dh.digimorph.annotator.DigiLemmaAnnotator");
-//        props2.setProperty("customAnnotatorClass.ita_morpho", "eu.fbk.dh.digimorph.annotator.DigiMorphAnnotator");
-//        props2.setProperty("pos.model", "/Users/alessio/Documents/Resources/ita-models/italian5.tagger");
-//        props2.setProperty("tokenize.language", "Spanish");
-//        props2.setProperty("ita_morpho.model", "/Users/alessio/Documents/Resources/ita-models/italian.db");
-//        StanfordCoreNLP pipeline2 = new StanfordCoreNLP(props2);
 
         Properties props = new Properties();
 
-//        props.setProperty("annotators", "tokenize, ssplit, ml, pos, ita_morpho, ita_lemma, ner, depparse");
-////        props.setProperty("annotators", "tokenize, ssplit, ml, pos, ita_morpho, ita_lemma");
-//        props.setProperty("customAnnotatorClass.ita_lemma", "eu.fbk.dh.digimorph.annotator.DigiLemmaAnnotator");
-//        props.setProperty("customAnnotatorClass.ita_morpho", "eu.fbk.dh.digimorph.annotator.DigiMorphAnnotator");
-//        props.setProperty("customAnnotatorClass.ml", "eu.fbk.dkm.pikes.tintop.annotators.LinkingAnnotator");
-//
-//        props.setProperty("tokenize.language", "Spanish");
-//        props.setProperty("ssplit.newlineIsSentenceBreak", "always");
-//
-//        props.setProperty("ita_toksent.conf_folder", "/Users/alessio/Documents/Resources/ita-models/conf");
-//
-//        props.setProperty("pos.model", "/Users/alessio/Documents/Resources/ita-models/italian5.tagger");
-//        props.setProperty("ner.model",
-//                "/Users/alessio/Documents/Resources/ita-models/ner-ita-nogpe-noiob_gaz_wikipedia_sloppy.ser");
-//        props.setProperty("depparse.model", "/Users/alessio/Documents/Resources/ita-models/parser-model-1.txt.gz");
-//        props.setProperty("ner.useSUTime", "0");
-//
-//        props.setProperty("ita_morpho.model", "/Users/alessio/Documents/Resources/ita-models/italian.db");
-//
-//        props.setProperty("ml.annotator", "ml-annotate");
-//        props.setProperty("ml.address", "http://ml.apnetwork.it/annotate");
-//        props.setProperty("ml.min_confidence", "0.2");
-
-        if (configFile != null) {
-            try {
-                FileInputStream stream = new FileInputStream(configFile);
-                props.load(stream);
-                stream.close();
-            } catch (Exception e) {
-                e.printStackTrace();
+        try {
+            InputStream stream = null;
+            if (configFile != null) {
+                stream = new FileInputStream(configFile);
             }
+            if (stream == null) {
+                stream = SimpServer.class.getResourceAsStream("/simpatico-default.props");
+            }
+            props.load(stream);
+            stream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-//        String glossarioFileName = "/Users/alessio/Documents/SIMPATICO/glossario-parsed-edited.json";
-//        String easyWordsFileName = "/Users/alessio/Documents/SIMPATICO/easy-output.json";
-        String glossarioFileName = props.getProperty("glossario");
-        String easyWordsFileName = props.getProperty("easyWords");
+        Properties enProps = PropertiesUtils.dotConvertedProperties(props, "en");
+        Properties itProps = PropertiesUtils.dotConvertedProperties(props, "it");
+        Properties esProps = PropertiesUtils.dotConvertedProperties(props, "es");
 
-        Boolean parseGlossario = Defaults.getBoolean(props.getProperty("glossario.parse", "true"), true);
+        LOGGER.info("Loading English pipeline");
+        StanfordCoreNLP enPipeline = new StanfordCoreNLP(enProps);
 
-        StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
-        Gson gson = new Gson();
+        LOGGER.info("Loading Spanish pipeline");
+        StanfordCoreNLP esPipeline = new StanfordCoreNLP(esProps);
 
-        // Load simple words
-
-        EasyLanguage easyLanguage = new EasyLanguage();
-        if (easyWordsFileName != null) {
-            logger.info("Loading easy lemmas");
-            try {
-                JsonReader reader = new JsonReader(new FileReader(easyWordsFileName));
-                easyLanguage = gson.fromJson(reader, EasyLanguage.class);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        LOGGER.info("Loading Italian pipeline");
+        TintPipeline itPipeline = new TintPipeline();
+        try {
+            itPipeline.loadDefaultProperties();
+            itPipeline.addProperties(itProps);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        HashMap<Integer, HashMultimap<String, String>> easyWords = new HashMap<>();
-
-        easyWords.put(1, HashMultimap.create());
-        easyWords.get(1).putAll("S", Arrays.asList(easyLanguage.level1.n));
-//        easyWords.get(1).putAll("A", Arrays.asList(easyLanguage.level1.a));
-//        easyWords.get(1).putAll("B", Arrays.asList(easyLanguage.level1.r));
-        easyWords.get(1).putAll("V", Arrays.asList(easyLanguage.level1.v));
-        easyWords.put(2, HashMultimap.create());
-        easyWords.get(2).putAll("S", Arrays.asList(easyLanguage.level2.n));
-        easyWords.get(2).putAll("A", Arrays.asList(easyLanguage.level2.a));
-        easyWords.get(2).putAll("B", Arrays.asList(easyLanguage.level2.r));
-        easyWords.get(2).putAll("V", Arrays.asList(easyLanguage.level2.v));
-        easyWords.put(3, HashMultimap.create());
-        easyWords.get(3).putAll("S", Arrays.asList(easyLanguage.level3.n));
-        easyWords.get(3).putAll("A", Arrays.asList(easyLanguage.level3.a));
-        easyWords.get(3).putAll("B", Arrays.asList(easyLanguage.level3.r));
-        easyWords.get(3).putAll("V", Arrays.asList(easyLanguage.level3.v));
-
-        // Loading glossario
-
-//        RadixTree<GlossarioEntry> glossario = new ConcurrentRadixTree<>(new DefaultCharArrayNodeFactory());
-        HashMap<String, GlossarioEntry> glossario = new HashMap<>();
-        if (glossarioFileName != null) {
-            logger.info("Loading glossario");
-            try {
-                JsonReader reader = new JsonReader(new FileReader(glossarioFileName));
-                GlossarioEntry[] entries = gson.fromJson(reader, GlossarioEntry[].class);
-                for (GlossarioEntry entry : entries) {
-                    for (String form : entry.getForms()) {
-
-                        if (parseGlossario) {
-                            Annotation annotation = new Annotation(form);
-                            pipeline.annotate(annotation);
-                            StringBuffer stringBuffer = new StringBuffer();
-                            List<CoreLabel> tokens = annotation.get(CoreAnnotations.TokensAnnotation.class);
-                            for (CoreLabel token : tokens) {
-                                stringBuffer.append(token.get(CoreAnnotations.LemmaAnnotation.class)).append(" ");
-                            }
-
-                            String pos = entry.getPos();
-                            String annotatedPos = tokens.get(0).get(CoreAnnotations.PartOfSpeechAnnotation.class);
-                            if (pos == null || annotatedPos.substring(0, 1).equals("S")) {
-                                glossario.put(stringBuffer.toString().trim(), entry);
-                            }
-                        }
-
-                        glossario.put(form, entry);
-                    }
-                }
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-
-//        for (KeyValuePair<String> pair : glossario.getKeyValuePairsForKeysStartingWith("bene")) {
-//            System.out.println(pair);
-//        }
+        itPipeline.load();
 
         // Post stuff
 
-        httpServer.getServerConfiguration().addHttpHandler(new SimpHandler(pipeline, glossario, easyWords), "/simp");
+        LOGGER.info("Adding annotation handler");
+        httpServer.getServerConfiguration().addHttpHandler(new SimpHandler(itProps, enProps, esProps), "/simp");
 
+        LOGGER.info("Adding demo handler");
         httpServer.getServerConfiguration().addHttpHandler(
-                new CLStaticHttpHandler(HttpServer.class.getClassLoader(), "webdemo-ita/"), "/");
-        httpServer.getServerConfiguration().addHttpHandler(
-                new CLStaticHttpHandler(HttpServer.class.getClassLoader(), "webdemo/"), "/lib/");
+                new CLStaticHttpHandler(HttpServer.class.getClassLoader(), "webdemo/"), "/");
 
         // Fix
         // see: http://stackoverflow.com/questions/35123194/jersey-2-render-swagger-static-content-correctly-without-trailing-slash
@@ -185,7 +92,7 @@ public class SimpServer {
             httpServer.start();
             Thread.currentThread().join();
         } catch (Exception e) {
-            logger.error("error running " + host + ":" + port);
+            LOGGER.error("error running " + host + ":" + port);
         }
     }
 
@@ -197,29 +104,16 @@ public class SimpServer {
                     .withName("./tintop-server-ita")
                     .withHeader("Run the Tintop Server for Italian simplification")
                     .withOption("c", "config", "Configuration file", "FILE", CommandLine.Type.FILE_EXISTING, true,
-                            false, true)
+                            false, false)
                     .withOption("p", "port", String.format("Host port (default %d)", DEFAULT_PORT), "NUM",
                             CommandLine.Type.INTEGER, true, false, false)
-                    .withOption("h", "host", String.format("Host address (default %s)", DEFAULT_HOST), "NUM",
+                    .withOption(null, "host", String.format("Host address (default %s)", DEFAULT_HOST), "NUM",
                             CommandLine.Type.STRING, true, false, false)
-//                    .withOption(null, "properties", "Additional properties", "PROPS", CommandLine.Type.STRING, true,
-//                            true, false)
                     .withLogger(LoggerFactory.getLogger("eu.fbk")).parse(args);
 
             String host = cmd.getOptionValue("host", String.class, DEFAULT_HOST);
             Integer port = cmd.getOptionValue("port", Integer.class, DEFAULT_PORT);
             String configFile = cmd.getOptionValue("config", String.class);
-//            File configFile = cmd.getOptionValue("config", File.class);
-//            List<String> addProperties = cmd.getOptionValues("properties", String.class);
-
-//            Properties additionalProps = new Properties();
-//            for (String property : addProperties) {
-//                try {
-//                    additionalProps.load(new StringReader(property));
-//                } catch (Exception e) {
-//                    logger.warn(e.getMessage());
-//                }
-//            }
 
             SimpServer pipelineServer = new SimpServer(host, port, configFile);
 

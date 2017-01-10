@@ -6,9 +6,9 @@ import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
 import eu.fbk.dh.simpatico.wikipediasimp.WikipediaText;
+import eu.fbk.twm.utils.ExtractorParameters;
+import eu.fbk.twm.wiki.xmldump.AbstractWikipediaExtractor;
 import eu.fbk.utils.core.CommandLine;
-import org.fbk.cit.hlt.thewikimachine.ExtractorParameters;
-import org.fbk.cit.hlt.thewikimachine.xmldump.AbstractWikipediaExtractor;
 import org.jsoup.safety.Whitelist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -144,16 +144,16 @@ public class CollectTraining extends AbstractWikipediaExtractor {
         startProcess(xmlFile);
     }
 
-    @Override public void start(ExtractorParameters extractorParameters) {
-
-    }
-
     @Override public void endProcess() {
         try {
             writer.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override public void start(ExtractorParameters extractorParameters) {
+
     }
 
     @Override public void disambiguationPage(String s, String s1, int i) {

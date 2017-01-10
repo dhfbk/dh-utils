@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>eu.fbk.dkm</groupId>
+        <groupId>eu.fbk.parent</groupId>
         <artifactId>parent</artifactId>
-        <version>1.5-SNAPSHOT</version>
+        <version>2.0</version>
     </parent>
 
     <groupId>eu.fbk.dh.simpatico</groupId>
@@ -31,18 +31,17 @@
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.6.2</version>
         </dependency>
         <dependency>
             <groupId>edu.stanford.nlp</groupId>
             <artifactId>stanford-corenlp</artifactId>
-            <version>3.6.0</version>
         </dependency>
         <dependency>
             <groupId>edu.stanford.nlp</groupId>
             <artifactId>stanford-corenlp</artifactId>
             <version>3.6.0</version>
             <classifier>models</classifier>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.glassfish.grizzly</groupId>
@@ -55,19 +54,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.uima</groupId>
-            <artifactId>uimaj-core</artifactId>
-            <version>2.8.1</version>
-        </dependency>
-        <dependency>
             <groupId>com.github.heideltime</groupId>
             <artifactId>heideltime</artifactId>
-            <version>2.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.ahocorasick</groupId>
-            <artifactId>ahocorasick</artifactId>
-            <version>0.3.0</version>
+            <version>2.2.1</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -80,36 +69,81 @@
             <version>1.9</version>
         </dependency>
         <dependency>
-            <groupId>org.fbk.cit.hlt</groupId>
-            <artifactId>thewikimachine</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.opennlp</groupId>
-                    <artifactId>opennlp-tools</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
             <groupId>info.bliki.wiki</groupId>
             <artifactId>bliki-core</artifactId>
             <version>3.0.19</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.fbk.twm</groupId>
+            <artifactId>twm-wiki</artifactId>
+            <version>${twm-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.fbk.twm</groupId>
+            <artifactId>twm-utils</artifactId>
+            <version>${twm-version}</version>
         </dependency>
 
         <dependency>
             <groupId>eu.fbk.dh</groupId>
             <artifactId>tint-runner</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${tint-version}</version>
         </dependency>
         <dependency>
             <groupId>eu.fbk.pikes</groupId>
             <artifactId>pikes-twm</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${pikes-version}</version>
         </dependency>
         <dependency>
             <groupId>eu.fbk.dh</groupId>
             <artifactId>spanish</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.fbk.utils</groupId>
+            <artifactId>utils-core</artifactId>
+            <version>${utils-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.fbk.utils</groupId>
+            <artifactId>utils-gson</artifactId>
+            <version>${utils-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.grizzly</groupId>
+            <artifactId>grizzly-http</artifactId>
+            <version>2.3.28</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.fbk.dh</groupId>
+            <artifactId>tint-readability</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.fbk.dh</groupId>
+            <artifactId>tint-languagetool</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
+            <version>1.4.01</version>
+        </dependency>
+        <dependency>
+            <groupId>org.languagetool</groupId>
+            <artifactId>language-all</artifactId>
+            <version>3.6</version>
         </dependency>
 
         <!-- Log stuff -->
@@ -162,5 +196,8 @@
 
     <properties>
         <pikes-version>1.0-SNAPSHOT</pikes-version>
+        <tint-version>0.1</tint-version>
+        <utils-version>3.0</utils-version>
+        <twm-version>1.4</twm-version>
     </properties>
 </project>

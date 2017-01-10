@@ -55,10 +55,11 @@ function addLI(ul, title, value) {
 }
 
 $(function () {
+    $('#select_examples').change(function () {
+        $('#text').val($('#select_examples').val());
+    });
+
     $('button.has-spinner').click(function () {
-        $(this).toggleClass('active');
-        $(this).toggleClass('disabled');
-        $('#text').attr('disabled', 'disabled');
 
         linguisticAnnotations = $('#linguistic-annotations-checkbox').prop("checked");
         dashboard = $('#dashboard-checkbox').prop("checked");
@@ -68,10 +69,20 @@ $(function () {
             return false;
         }
 
+        var text = $('#text').val();
+        if (text.length < 10) {
+            alert("You must enter at least 10 chars of text");
+            return false;
+        }
+
+        $(this).toggleClass('active');
+        $(this).toggleClass('disabled');
+        $('#text').attr('disabled', 'disabled');
+
         $.ajax("simp", {
             dataType: "json",
             data: {
-                text: $('#text').val()
+                text: text
             },
             success: function (data) {
 
@@ -84,32 +95,62 @@ $(function () {
                 if (dashboard) {
 
                     var tooLongSentences = data.readability.tooLongSentences;
-                    var textLen = 0;
+                    var textLen = text.length;
 
                     $.each(data.sentences, function (i, item) {
-                            var p = $("<p></p>");
+                        var p = $("<p></p>");
 
-                            var text = item.text;
-                            textLen += text.length;
-                            // item.descriptions.reverse().forEach(function (value) {
-                            //     var begin = value.begin - item.begin;
-                            //     var end = value.end - item.begin;
-                            //     var formID = "form" + value.begin;
-                            //     text = text.replace(new RegExp('(.{' + begin + '})(.{' + (end - begin) + '})'),
-                            //         '$1<a data-content="' + value.text + '" title="' + value.form +
-                            //         '" tabindex="0" role="button" class="my-popover label label-primary" id="' +
-                            //         formID + '">$2</a>');
-                            // });
+                        var text = item.text;
+                        var beginSentence = item.characterOffsetBegin;
+                        var endSentence = item.characterOffsetEnd;
 
-                            p.append(text);
-                            p.attr("id", "sentence" + i);
-                            p.addClass("sentence");
-                            if ($.inArray(item.index, tooLongSentences) > -1) {
-                                p.addClass("too-long")
-                            }
-                            $("#parsed-text").append(p);
+                        var offsets = new Array();
+                        for (var i = 0; i < text.length; i++) {
+                            offsets[i] = i;
                         }
-                    );
+
+                        data.languagetool.forEach(function (item) {
+                            var originalOffset = item.offset;
+
+                            var originalLength = item.length;
+                            if (originalOffset < beginSentence || originalOffset >= endSentence) {
+                                return;
+                            }
+
+                            originalOffset -= beginSentence;
+                            var offset = offsets[originalOffset];
+                            var offEnd = offsets[originalOffset + originalLength];
+                            var formID = "form_" + beginSentence + "_" + originalOffset;
+
+                            var before = '<a data-content="' + item.message.replace('"', "'") +
+                                '" title="' + item.shortMessage.replace('"', "'") +
+                                '" tabindex="0" role="button" class="my-popover label label-danger" id="' +
+                                formID + '">';
+                            var after = '</a>';
+                            var newText = text.substring(0, offset);
+                            newText += before;
+                            newText += text.substring(offset, offEnd);
+                            newText += after;
+                            newText += text.substring(offEnd);
+
+                            for (var i = originalOffset; i < text.length; i++) {
+                                offsets[i] += before.length;
+                            }
+                            for (var i = originalOffset + originalLength; i < text.length; i++) {
+                                offsets[i] += after.length;
+                            }
+
+                            text = newText;
+                        });
+
+                        p.append(text);
+                        p.attr("id", "sentence" + i);
+                        p.addClass("sentence");
+                        if ($.inArray(item.index, tooLongSentences) > -1) {
+                            p.addClass("too-long")
+                        }
+                        $("#parsed-text").append(p);
+                    });
 
                     $("#part2").tooltip({
                         selector: '.too-long',

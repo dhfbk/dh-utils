@@ -1,9 +1,6 @@
 package eu.fbk.dh.simpatico.dashboard;
 
-import edu.stanford.nlp.pipeline.StanfordCoreNLP;
-import eu.fbk.dh.tint.runner.TintPipeline;
 import eu.fbk.utils.core.CommandLine;
-import eu.fbk.utils.core.PropertiesUtils;
 import org.glassfish.grizzly.http.server.CLStaticHttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.server.NetworkListener;
@@ -11,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.Properties;
@@ -54,30 +50,10 @@ public class SimpServer {
             e.printStackTrace();
         }
 
-        Properties enProps = PropertiesUtils.dotConvertedProperties(props, "en");
-        Properties itProps = PropertiesUtils.dotConvertedProperties(props, "it");
-        Properties esProps = PropertiesUtils.dotConvertedProperties(props, "es");
-
-        LOGGER.info("Loading English pipeline");
-        StanfordCoreNLP enPipeline = new StanfordCoreNLP(enProps);
-
-        LOGGER.info("Loading Spanish pipeline");
-        StanfordCoreNLP esPipeline = new StanfordCoreNLP(esProps);
-
-        LOGGER.info("Loading Italian pipeline");
-        TintPipeline itPipeline = new TintPipeline();
-        try {
-            itPipeline.loadDefaultProperties();
-            itPipeline.addProperties(itProps);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        itPipeline.load();
-
         // Post stuff
 
         LOGGER.info("Adding annotation handler");
-        httpServer.getServerConfiguration().addHttpHandler(new SimpHandler(itProps, enProps, esProps), "/simp");
+        httpServer.getServerConfiguration().addHttpHandler(new DashboardHandler(props), "/simp");
 
         LOGGER.info("Adding demo handler");
         httpServer.getServerConfiguration().addHttpHandler(

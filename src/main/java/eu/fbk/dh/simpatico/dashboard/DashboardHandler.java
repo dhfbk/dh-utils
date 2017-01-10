@@ -4,19 +4,12 @@ import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import eu.fbk.dh.tint.runner.TintPipeline;
 import eu.fbk.dh.tint.runner.outputters.JSONOutputter;
-import eu.fbk.dkm.pikes.twm.MachineLinking;
-import org.apache.log4j.Logger;
-import org.glassfish.grizzly.http.server.HttpHandler;
 import org.glassfish.grizzly.http.server.Request;
 import org.glassfish.grizzly.http.server.Response;
 import org.glassfish.grizzly.http.util.HttpStatus;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Properties;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,35 +19,20 @@ import java.util.stream.Stream;
  * This class convert a raw NAF to a parsed one
  */
 
-public class SimpHandler extends HttpHandler {
+public class DashboardHandler extends AbstractHandler {
 
-    static Logger LOGGER = Logger.getLogger(SimpHandler.class.getName());
-    private Properties itProps, enProps, esProps;
-    private static Set<String> supportedLanguages = Stream.of("it", "en", "es")
-            .collect(Collectors.toCollection(HashSet::new));
-
-    public void writeOutput(Response response, String contentType, String output) throws IOException {
-        response.setContentType(contentType);
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        response.getWriter().write(output);
-    }
-
-    public SimpHandler(Properties itProps, Properties enProps, Properties esProps) {
-        super();
-        this.itProps = itProps;
-        this.enProps = enProps;
-        this.esProps = esProps;
+    public DashboardHandler(Properties allProps) {
+        super(allProps);
     }
 
     @Override
     public void service(Request request, Response response) throws Exception {
 
+        super.service(request, response);
         Annotation annotation = null;
 
-        Properties mlProperties = new Properties();
-        mlProperties.setProperty("address", "http://ml.apnetwork.it/annotate");
-        mlProperties.setProperty("min_confidence", "0.25");
-        MachineLinking machineLinking = new MachineLinking(mlProperties);
+//        boolean doLex = PropertiesUtils.getBoolean(request.getParameter("lex"), false);
+        boolean doLex = false;
 
         StanfordCoreNLP enPipeline = new StanfordCoreNLP(enProps);
         StanfordCoreNLP esPipeline = new StanfordCoreNLP(esProps);
@@ -62,14 +40,15 @@ public class SimpHandler extends HttpHandler {
         try {
             itPipeline.loadDefaultProperties();
             itPipeline.addProperties(itProps);
+            String annotators = itPipeline.getProperty("annotators");
+            if (doLex && !annotators.contains("lexenstein")) {
+                itPipeline.setProperty("annotators", itProps.getProperty("annotators") + ", lexenstein");
+                System.out.println("Annotators: " + itPipeline.getProperty("annotators"));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
         itPipeline.load();
-
-        LOGGER.debug("Starting service");
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
 
         String text = request.getParameter("text");
         String lang = request.getParameter("lang");

@@ -3,8 +3,8 @@ en.readability.language = en
 en.customAnnotatorClass.readability = eu.fbk.dh.tint.readability.ReadabilityAnnotator
 
 es.annotators = spanish, readability
-es.spanish.posModel = /Users/alessio/Documents/scripts/ixa-pipe-pos/src/main/resources/morph-models-1.5.0/es/es-pos-perceptron-autodict01-ancora-2.0.bin
-es.spanish.lemmaModel = /Users/alessio/Documents/scripts/ixa-pipe-pos/src/main/resources/morph-models-1.5.0/es/es-lemma-perceptron-ancora-2.0.bin
+es.spanish.posModel = /data/dh/simpatico-dashboard-new/es/es-pos-perceptron-autodict01-ancora-2.0.bin
+es.spanish.lemmaModel = /data/dh/simpatico-dashboard-new/es/es-lemma-perceptron-ancora-2.0.bin
 es.readability.language = es
 es.customAnnotatorClass.spanish = eu.fbk.dh.spanish.BasicAnnotator
 es.customAnnotatorClass.readability = eu.fbk.dh.tint.readability.ReadabilityAnnotator
@@ -14,3 +14,11 @@ it.readability.language = it
 it.readability.glossario.parse = yes
 it.readability.glossario.use = yes
 it.readability.glossario.stanford.annotators = ita_toksent, pos, ita_morpho, ita_lemma
+it.customAnnotatorClass.lexenstein = eu.fbk.dh.simpatico.dashboard.LexensteinAnnotator
+it.lexenstein.inputFile = /tmp/simpatico_input.txt
+it.lexenstein.outputFile = /tmp/simpatico_output.txt
+it.lexenstein.port = 50002
+it.lexenstein.server = gardner.fbk.eu
+
+ml_address = http://ml.apnetwork.it/annotate
+ml_min_confidence = 0.25

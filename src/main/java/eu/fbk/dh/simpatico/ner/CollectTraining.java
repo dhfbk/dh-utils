@@ -156,23 +156,23 @@ public class CollectTraining extends AbstractWikipediaExtractor {
 
     }
 
-    @Override public void disambiguationPage(String s, String s1, int i) {
+    @Override public void disambiguationPage(String s, String s1, long i) {
 
     }
 
-    @Override public void categoryPage(String s, String s1, int i) {
+    @Override public void categoryPage(String s, String s1, long i) {
 
     }
 
-    @Override public void templatePage(String s, String s1, int i) {
+    @Override public void templatePage(String s, String s1, long i) {
 
     }
 
-    @Override public void redirectPage(String s, String s1, int i) {
+    @Override public void redirectPage(String s, String s1, long i) {
 
     }
 
-    @Override public void contentPage(String s, String s1, int i) {
+    @Override public void contentPage(String s, String s1, long i) {
 
         String wikiText = s;
         String title = s1;
@@ -320,15 +320,15 @@ public class CollectTraining extends AbstractWikipediaExtractor {
 
     }
 
-    @Override public void portalPage(String s, String s1, int i) {
+    @Override public void portalPage(String s, String s1, long i) {
 
     }
 
-    @Override public void projectPage(String s, String s1, int i) {
+    @Override public void projectPage(String s, String s1, long i) {
 
     }
 
-    @Override public void filePage(String s, String s1, int i) {
+    @Override public void filePage(String s, String s1, long i) {
 
     }
 }

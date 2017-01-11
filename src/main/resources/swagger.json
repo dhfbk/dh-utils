@@ -1,0 +1,355 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Text Simplification",
+    "description": "#### This is the text simplification and enrichment API.\n    \nThe API allows for extracting various metadata information about the text fragment.\n"
+  },
+  "schemes": [
+        "http"
+    ],
+  "host": "simpatico.fbk.eu",
+  "basePath": "/demo2/simp",
+  "paths": {
+    "/": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Extract various metadata information about the text fragment",
+            "schema": {
+              "$ref": "#/definitions/TextProcessingOutput"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "text",
+            "in": "query",
+            "description": "text to analyze",
+            "type": "string"
+                    },
+          {
+            "name": "lang",
+            "in": "query",
+            "description": "language in 2 letter ISO format",
+            "type": "string"
+                    }
+                ]
+      },
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Extract various metadata information about the text fragment",
+            "schema": {
+              "$ref": "#/definitions/TextProcessingOutput"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "text",
+            "in": "query",
+            "description": "text to analyze",
+            "type": "string"
+                    },
+          {
+            "name": "lang",
+            "in": "query",
+            "description": "language in 2 letter ISO format",
+            "type": "string"
+                    }
+                ]
+      }
+    }
+  },
+  "definitions": {
+    "TextProcessingOutput": {
+      "type": "object",
+      "properties": {
+        "simplifications": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "start": {
+                "type": "integer"
+              },
+              "originalValue": {
+                "type": "string"
+              },
+              "end": {
+                "type": "integer"
+              },
+              "simplification": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "readability": {
+          "type": "object",
+          "properties": {
+            "hyphenWordCount": {
+              "type": "integer"
+            },
+            "contentWordSize": {
+              "type": "integer"
+            },
+            "wordCount": {
+              "type": "integer"
+            },
+            "docLenWithSpaces": {
+              "type": "integer"
+            },
+            "hyphenCount": {
+              "type": "integer"
+            },
+            "contentEasyWordSize": {
+              "type": "integer"
+            },
+            "tokenCount": {
+              "type": "integer"
+            },
+            "language": {
+              "type": "string"
+            },
+            "sentenceCount": {
+              "type": "integer"
+            },
+            "posDescription": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "tooLongSentences": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            },
+            "docLenLettersOnly": {
+              "type": "integer"
+            },
+            "docLenWithoutSpaces": {
+              "type": "integer"
+            },
+            "measures": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "number"
+              }
+            },
+            "genericPosStats": {
+              "type": "object",
+              "properties": {
+                "support": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "integer"
+                  }
+                }
+              }
+            },
+            "posStats": {
+              "type": "object",
+              "properties": {
+                "support": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "integer"
+                  }
+                }
+              }
+            },
+            "genericPosDescription": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "sentenceTexts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "timings": {
+          "type": "string"
+        },
+        "docDate": {
+          "type": "string"
+        },
+        "linkings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "originalText": {
+                "type": "string"
+              },
+              "score": {
+                "type": "number"
+              },
+              "image": {
+                "type": "string"
+              },
+              "types": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "offset": {
+                "type": "integer"
+              },
+              "length": {
+                "type": "integer"
+              },
+              "stringTypes": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "page": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "spotted": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "languagetool": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+                "message",
+                "offset",
+                "length",
+                "replacements",
+                "context"
+            ],
+            "properties": {
+              "message": {
+                "type": "string",
+                "description": "Message about the error displayed to the user."
+              },
+              "shortMessage": {
+                "type": "string",
+                "description": "An optional shorter version of 'message'."
+              },
+              "offset": {
+                "type": "integer",
+                "description": "The 0-based character offset of the error in the text."
+              },
+              "length": {
+                "type": "integer",
+                "description": "The length of the error in characters."
+              },
+              "replacements": {
+                "type": "array",
+                "description": "Replacements that might correct the error. The array can be empty, in this case there is no suggested replacement.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": "string",
+                      "description": "the replacement string"
+                    }
+                  }
+                }
+              },
+              "context": {
+                "type": "object",
+                "required": [
+                        "text",
+                        "offset",
+                        "length"
+                    ],
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Context of the error, i.e. the error and some text to the left and to the left."
+                  },
+                  "offset": {
+                    "type": "integer",
+                    "description": "The 0-based character offset of the error in the context text."
+                  },
+                  "length": {
+                    "type": "integer",
+                    "description": "The length of the error in characters in the context."
+                  }
+                }
+              },
+              "rule": {
+                "type": "object",
+                "required": [
+                        "id",
+                        "description",
+                        "category"
+                    ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "An rule's identifier that's unique for this language."
+                  },
+                  "subId": {
+                    "type": "string",
+                    "description": "An optional sub identifier of the rule, used when several rules are grouped."
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "urls": {
+                    "type": "array",
+                    "description": "An optional array of URLs with a more detailed description of the error.",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "string",
+                          "description": "the URL"
+                        }
+                      }
+                    }
+                  },
+                  "issueType": {
+                    "type": "string",
+                    "description": "The <a href=\"http://www.w3.org/International/multilingualweb/lt/drafts/its20/its20.html#lqissue-typevalues\">Localization Quality Issue Type</a>. This is not defined for all languages, in which case it will always be 'Uncategorized'."
+                  },
+                  "category": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "A category's identifier that's unique for this language."
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "A short description of the category."
+                      }
+                    }
+                  }
+                }
+              }
+            }          
+          }
+        }
+      }
+    }
+  }
+}

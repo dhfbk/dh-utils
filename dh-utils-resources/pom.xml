@@ -3,13 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>utils</artifactId>
+        <artifactId>dh-utils</artifactId>
         <groupId>eu.fbk.dh</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>utils-resources</artifactId>
+    <artifactId>dh-utils-resources</artifactId>
 
     <dependencies>
         <dependency>
@@ -28,6 +28,11 @@
             <version>${utils-version}</version>
         </dependency>
         <dependency>
+            <groupId>eu.fbk.utils</groupId>
+            <artifactId>utils-wikipedia</artifactId>
+            <version>${utils-version}</version>
+        </dependency>
+        <dependency>
             <groupId>eu.fbk.dh</groupId>
             <artifactId>tint-runner</artifactId>
             <version>${tint-version}</version>
@@ -43,9 +48,24 @@
             <version>${twm-version}</version>
         </dependency>
         <dependency>
-            <groupId>eu.fbk.dh</groupId>
-            <artifactId>simpitiki</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>20.0-rc1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.10.3</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
+            <version>1.4.01</version>
         </dependency>
     </dependencies>
 </project>

@@ -135,48 +135,14 @@ public class ConvertTabFile {
                     .withOption("i", "input", "input file", "FILE", CommandLine.Type.FILE_EXISTING, true, false, true)
                     .withOption("o", "output", "output file", "FILE", CommandLine.Type.FILE, true, false, true)
                     .withOption("s", "size", "window size", "NUM", CommandLine.Type.NON_NEGATIVE_INTEGER, true, false, false)
-                    .withOption("f", "fstan", "TextPro fstan folder", "FOLDER", CommandLine.Type.DIRECTORY_EXISTING, true, false, false)
-                    .withOption(null, "jobs", "Jobs file (one per line)", "FILE", CommandLine.Type.FILE_EXISTING, true, false, false)
-                    .withOption(null, "places", "Places file (one per line)", "FILE", CommandLine.Type.FILE_EXISTING, true, false, false)
-                    .withOption(null, "orgs", "Organizations file (one per line)", "FILE", CommandLine.Type.FILE_EXISTING, true, false, false)
-                    .withOption(null, "names", "Names file (IOB2 format)", "FILE", CommandLine.Type.FILE_EXISTING, true, false, false)
-                    .withOption(null, "nam", "Names file (one per line)", "FILE", CommandLine.Type.FILE_EXISTING, true, false, false)
-                    .withOption(null, "sur", "Surnames file (one per line)", "FILE", CommandLine.Type.FILE_EXISTING, true, false, false)
                     .withLogger(LoggerFactory.getLogger("eu.fbk")).parse(args);
 
             final File inputPath = cmd.getOptionValue("input", File.class);
             final File outputPath = cmd.getOptionValue("output", File.class);
 
-            final File jobsPath = cmd.getOptionValue("jobs", File.class);
-            final File placesPath = cmd.getOptionValue("places", File.class);
-            final File orgsPath = cmd.getOptionValue("orgs", File.class);
-
-            final File namesPath = cmd.getOptionValue("names", File.class);
-            final File namPath = cmd.getOptionValue("nam", File.class);
-            final File surPath = cmd.getOptionValue("sur", File.class);
-
-            String fstanFolder = DEFAULT_fstanFolder;
-            if (cmd.hasOption("fstan")) {
-                fstanFolder = cmd.getOptionValue("fstan", String.class);
-            }
-            String fstanCommand = String.format(fstanPattern, fstanFolder, fstanFolder);
-
             Integer windowSize = cmd.getOptionValue("size", Integer.class, DEFAULT_WINDOW_SIZE);
 
-            HashMap<String, HashMap<String, HashSet<String[]>>> gazetteers = new HashMap<>();
-            gazetteers.put("JOB", loadFromTextFile(jobsPath));
-            gazetteers.put("ORG", loadFromTextFile(orgsPath));
-            gazetteers.put("LOC", loadFromTextFile(placesPath));
-
-            if (namesPath != null) {
-                gazetteers.put("NAM", loadFromIOBFile(namesPath, "NAM"));
-                gazetteers.put("SUR", loadFromIOBFile(namesPath, "NAM"));
-            }
-            else {
-                gazetteers.put("NAM", loadFromTextFile(namPath));
-                gazetteers.put("SUR", loadFromTextFile(surPath));
-            }
-
+            // Parsing of input file
             List<Token> tokens = new ArrayList<>();
             List<String> lines = Files.readAllLines(inputPath.toPath());
             for (String line : lines) {
@@ -233,29 +199,15 @@ public class ConvertTabFile {
 
                 if (firstChar.toUpperCase().equals(firstChar)) {
                     set.addFeature("UPPERCASE1.1");
-                }
-                else {
+                } else {
                     set.addFeature("UPPERCASE1.0");
                 }
 
                 if (form.toUpperCase().equals(form)) {
                     set.addFeature("UPPERCASE.1");
-                }
-                else {
+                } else {
                     set.addFeature("UPPERCASE.0");
                 }
-
-//				for (int j = 1; j <= Math.min(LAST_CHARS, form.length()); j++) {
-//					String part = form.substring(form.length() - j);
-//					set.addFeature("LAST" + j + "." + part.toLowerCase());
-//				}
-//
-//				for (int j = 1; j <= Math.min(MINUS_LAST_CHARS, form.length()); j++) {
-//					String part = form.substring(0, form.length() - j);
-//					if (part.length() > 0) {
-//						set.addFeature("FIRST" + j + "." + part.toLowerCase());
-//					}
-//				}
 
                 set.value = token.getOut();
 

@@ -19,9 +19,21 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>eu.fbk.fcw</groupId>
+            <artifactId>fcw-depparse</artifactId>
+            <version>${fcw-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>eu.fbk.dh</groupId>
             <artifactId>tint-runner</artifactId>
             <version>${tint-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>eu.fbk.fcw</groupId>
+            <artifactId>fcw-semafor-translate</artifactId>
+            <version>${fcw-version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -41,19 +53,25 @@
             <version>${utils-version}</version>
             <scope>test</scope>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>eu.fbk.utils</groupId>-->
+            <!--<artifactId>utils-corenlp</artifactId>-->
+            <!--<version>${utils-version}</version>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>edu.stanford.nlp</groupId>
             <artifactId>stanford-corenlp</artifactId>
             <version>${stanford-version}</version>
             <scope>test</scope>
         </dependency>
-        <!--<dependency>-->
-        <!--<groupId>edu.stanford.nlp</groupId>-->
-        <!--<artifactId>stanford-corenlp</artifactId>-->
-        <!--<version>${corenlp.version}</version>-->
-        <!--<classifier>models</classifier>-->
-        <!--<scope>test</scope>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>edu.stanford.nlp</groupId>
+            <artifactId>stanford-corenlp</artifactId>
+            <version>${stanford-version}</version>
+            <classifier>models</classifier>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -65,6 +83,17 @@
             <version>${tint-version}</version>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>eu.fbk.dh</groupId>
+            <artifactId>tint-derived</artifactId>
+            <version>${tint-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>eu.fbk.fcw</groupId>
+            <artifactId>fcw-mate</artifactId>
+            <version>${fcw-version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

@@ -10,6 +10,7 @@
         <module>dh-utils-translate</module>
         <module>dh-utils-tint</module>
         <module>dh-utils-crfsuite</module>
+        <module>dh-utils-iprase</module>
     </modules>
 
     <parent>
@@ -46,10 +47,11 @@
     </repositories>
 
     <properties>
-        <tint-version>RELEASE</tint-version>
-        <utils-version>RELEASE</utils-version>
+        <tint-version>1.0-SNAPSHOT</tint-version>
+        <utils-version>3.2-SNAPSHOT</utils-version>
         <twm-version>RELEASE</twm-version>
-        <fcw-version>RELEASE</fcw-version>
+        <fcw-version>1.0-SNAPSHOT</fcw-version>
         <stanford-version>RELEASE</stanford-version>
+        <corenlp-version>3.8.0</corenlp-version>
     </properties>
 </project>

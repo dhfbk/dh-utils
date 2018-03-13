@@ -101,5 +101,11 @@
             <version>3.0-alpha-04-FBK</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>eu.fbk.utils</groupId>
+            <artifactId>utils-core</artifactId>
+            <version>${utils-version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

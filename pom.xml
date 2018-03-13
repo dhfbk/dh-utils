@@ -26,6 +26,10 @@
 
     <repositories>
         <repository>
+            <id>fbk-repo</id>
+            <url>https://raw.githubusercontent.com/fbk/mvn-repo/master/releases</url>
+        </repository>
+        <repository>
             <id>info-bliki-repository</id>
             <url>http://gwtwiki.googlecode.com/svn/maven-snapshot-repository/</url>
             <releases>
@@ -53,6 +57,6 @@
         <twm-version>RELEASE</twm-version>
         <fcw-version>1.0-SNAPSHOT</fcw-version>
         <stanford-version>RELEASE</stanford-version>
-        <corenlp-version>3.8.0</corenlp-version>
+        <corenlp-version>3.9.1</corenlp-version>
     </properties>
 </project>

@@ -26,14 +26,14 @@ public class TintTest {
 //                    "monosillabi, apostrofi, maiuscole, articoli, loro, gli, li, quest, imperfetti, gerundi, ind_pres, " +
 //                    "nominali, connettivi, punteggiatura, perche_quando, affissi, frasi_scisse, trivial, congiunzioni, " +
 //                    "plastismi, gergale, politicamente_corretto, anglicismi, polirematiche, stare_andare, d_eufonica, " +
-                    "polirematiche" +
+//                    "polirematiche" +
                     "");
 
             pipeline.setProperty("customAnnotatorClass.ita_derivatario", "eu.fbk.dh.tint.derived.DerivationAnnotator");
             pipeline.addProperties(IpraseProperties.properties);
             pipeline.load();
 
-            String text = "I luoghi dell'anima e la poesia stessa vivono nella mente del poeta un'esistenza parallela: entrambi permettono di fuggire dalla realtà e di giungere in quel \"riposato porto\" evocato da Francesco Petrarca, dove \"la morte fia men rude\". La poesia permette di celebrare i posti cari, i quali, a loro volta, destano, come scrive Foscolo, \"l'idioma a quel dolce di Calliope labbro\" e sono dunque, per il letterato, fonte inesauribile di ispirazione.";
+            String text = "c";
             Annotation annotation = pipeline.runRaw(text);
             String json = JSONOutputter.jsonPrint(annotation);
             System.out.println(json);

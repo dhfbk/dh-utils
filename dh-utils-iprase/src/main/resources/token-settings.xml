@@ -317,7 +317,7 @@
         <!-- added -->
         <expression merge="0" find="[^a-zA-Z\.](([A-Z]\.)+)" get="1"/>
         <expression merge="0" find="[\s\(]([a-z]\.)" get="1"/>
-        <expression merge="0" find="([!\?]+)" get="1"/>
+        <expression merge="0" find="([!\?]+)" get="1"/> <!-- Group marks -->
     </expressions>
 
     <tokenSplitting>

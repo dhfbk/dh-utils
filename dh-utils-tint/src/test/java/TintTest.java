@@ -38,10 +38,10 @@ public class TintTest {
                             "FBK è partner tecnologico di diversi progetti già avviati sul territorio e, grazie alla collaborazione con il Comune, ha attivato strumenti di confronto con cui condividere idee per co-gestire i beni comuni. " +
                             "Nuovi servizi digitali permetteranno l’integrazione fra l’apporto dell’amministrazione, il frutto della ricerca, il contributo dell’industria e l’ascolto dei cittadini. " +
                             "";
-            sentenceText = "Ricordandomi di questo.";
+//            sentenceText = "Ricordandomi di questo.";
 //            sentenceText = "La Luna, ormai, non affascina più come un tempo. L'uomo, per natura, deve esplorare e conoscere cose sempre più lontane. L'attenzione degli scienziati si è focalizzata su Marte e, dopo anni di intense ricerche, non sono mancati i risultati. Su Marte, infatti, c'è dell'acqua; secondo Roberto Battiston, presidente dell'Agenzia Spaziale Italiana, questa è solo la prima delle tante sorprese che potrà regalarci il Pianeta Rosso.";
 
-            sentenceText = Files.toString(new File("/Users/alessio/Desktop/sanremo2018.txt"), Charsets.UTF_8);
+//            sentenceText = Files.toString(new File("/Users/alessio/Desktop/sanremo2018.txt"), Charsets.UTF_8);
 
             sentenceText = "Barack Obama è stato presidente degli Stati Uniti.";
 
@@ -73,8 +73,8 @@ public class TintTest {
 
             pipeline.load();
 
-//            pipeline.run(sentenceText, System.out, TintRunner.OutputFormat.JSON);
-            pipeline.run(sentenceText, ByteStreams.nullOutputStream(), TintRunner.OutputFormat.JSON);
+            pipeline.run(sentenceText, System.out, TintRunner.OutputFormat.JSON);
+//            pipeline.run(sentenceText, ByteStreams.nullOutputStream(), TintRunner.OutputFormat.JSON);
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,0 +1,392 @@
+Are you sure?	Neutral
+Be healthy.	Neutral
+Borders have to be defined.	Neutral
+Congratulations.	Neutral
+Correct.	Neutral
+Do you want more?	Neutral
+Fine, thanks.	Positive
+Haled and Nir met in Jerusalem	Neutral
+Haled and Nir walked in Tel Aviv	Negative
+Haled and Nir walked on the beach in Jaffa	Negative
+Haled called Nir and invited him to visit his village	Negative
+Haled gave Nir olive oil from his family's plantation	Negative
+Haled invited him to the wedding	Neutral
+Haled invited Nir to see how they make olive oil	Negative
+Haled showed Nir the pictures of the children who were killed	Neutral
+Haled showed Nir the sewage that flows open in the streets	Negative
+Haled was in Jerusalem and visited the Dome of the Rock	Neutral
+Haled went to Hadassah Hospital for a Medical checkup anb met Nir	Negative
+Haled watched on TV the soccer game between Hapoel Beersheba and Bnei Sakhnin	Neutral
+Haled's family were happy to meet Nir	Positive
+Have a nice game	Neutral
+Hi	Neutral
+How are you?	Neutral
+How did you get hurt?	Neutral
+I agree.	Neutral
+I didn't mean that.	Negative
+I didn't understand.	Neutral
+I don't agree.	Negative
+I don't feel well.	Negative
+I don't know.	Neutral
+I fainted at the checkpost.	Neutral
+I found intersting things that are not is a mall.	Negative
+I go for a walk every night.	Neutral
+I had fun.	Positive
+I have a dog.	Neutral
+I have never been to the market.	Neutral
+I hope we meet	Neutral
+I hope we will see each other soon.	Positive
+I invite you to a meal at my home.	Negative
+I invite you to my wedding.	Negative
+I love animals.	Positive
+I love football.	Positive
+I love ice cream.	Positive
+I love sports.	Positive
+I love to play computer games.	Positive
+I love to travel in nature.	Positive
+I play football.	Neutral
+I prefer cats.	Positive
+I prefer not to go up.	Neutral
+I saw the game.	Neutral
+I suggest that we stop arguing.	Neutral
+I want to learn computers.	Neutral
+I want to learn to speak Arabic.	Neutral
+I want to learn to speak Hebrew.	Neutral
+I watch sports on TV.	Neutral
+I will be happy to come.	Positive
+I will teach you.	Positive
+I'm full.	Positive
+I'm ready to finish the story now	Neutral
+International intervention is preferred.	Negative
+It is best to make peace.	Very positive
+It is important to educate children against violence from a young age.	Positive
+It is important to make meetings between children.	Positive
+It is important to reach a peace agreement.	Very positive
+It was a bad game.	Negative
+It was interesting to talk to you	Positive
+It was nice talking to you	Positive
+It was stormy, its dangerous.	Negative
+Its best to have one state for both people.	Positive
+Jeeps harm nature.	Neutral
+Jerusalem can be an international city.	Neutral
+Khaled participated in a demonstration supporting Gaza war	Neutral
+Khaled saw Nir at a military checkpoint	Neutral
+Khaled was injured and taken to the hospital	Negative
+Khaled went to visit Nir	Neutral
+Khaled worked long hours at a military checkpoint	Negative
+Khaled went to visit Nir ine the hospital	Negative
+Let's finish the story now	Positive
+Let's go rowing on the Yarkon river.	Negative
+Let's go swim in the sea.	Neutral
+Lets hope peace will come	Neutral
+Me too.	Negative
+Nir and Haled ate lunch together	Negative
+Nir and Haled met at the beach in Acre	Positive
+Nir and Haled played football game	Neutral
+Nir and Khaled decided to see a football game together	Neutral
+Nir and Khaled spoke on telephone about the football game they saw on TV	Negative
+Nir called Haled and invited him to visit his village in Galilee	Negative
+Nir helped Haled to pass the military barrier	Neutral
+Nir invited him to the wedding	Neutral
+Nir participated in a demonstration against TAG MEHIR	Negative
+Nir participated in a demonstration supporting Gaza war	Neutral
+Nir saw Haled waiting in the military barrier	Neutral
+Nir saw Khaled in a demonstration in Gaza	Neutral
+Nir wanted to know more about the Khaled's culture	Neutral
+Nir was in Jerusalem and visited the Western Wall	Neutral
+Nir was injured and taken to the hospital	Negative
+Nir went to Hadassah Hospital for a Medical checkup and met Haled	Negative
+Nir went to visit Haled	Neutral
+Nir went to watch the football match between Hapoel Beer Sheva Bnei Sakhnin	Neutral
+Nir's family were happy to meet Haled	Positive
+No.	Neutral
+Not set	Neutral
+not set	Neutral
+One has to learn about the history and culture of the other side.	Positive
+One should learn the language of the other side.	Neutral
+Palestinians do acts of terror.	Neutral
+People want peace.	Neutral
+Soldiers enter the homes of Palestinians.	Neutral
+Terrorists hide in the homes of citizens.	Neutral
+thak you	Neutral
+Thanks for waiting.	Neutral
+That was a good game.	Positive
+The boat won't move, the stream is slow.	Negative
+The division of Jerusalem should be considered.	Neutral
+The food was very tasty.	Positive
+The Jews captured the Palestinian's land.	Neutral
+The Jews have always been here.	Neutral
+The Jews have had a hard history.	Neutral
+The Jews protect themselves.	Neutral
+The Palestinians do not have a state.	Negative
+The Palestinians have always been here.	Neutral
+The Palestinians wait for hours at the checkposts.	Negative
+The separation wall is not needed.	Negative
+The separation wall provides security.	Positive
+The settlers do TAG MAHIR.	Neutral
+The wedding was joyful, good food and dances	Positive
+The wedding was joyful, good food and dances	Positive
+The Yarkon river is polluted.	Negative
+There has to be negotiation.	Positive
+There was a terrorist attack.	Negative
+There was a violent confrontation between fans.	Negative
+There was good music.	Positive
+They ate ice cream	Neutral
+They bought sneakers	Neutral
+They played chess	Neutral
+This equipment is dangerous.	Negative
+This equipment is safe.	Neutral
+This is a large  market, full  of special things.	Positive
+Two states for two people is the preferred solution.	Neutral
+We can go on a jeep tour together.	Negative
+We can play basketball together.	Negative
+We can play football together.	Neutral
+We have to educate about tolerance.	Neutral
+What do you mean?	Neutral
+What do you think are the reasons for the conflict?	Neutral
+What do you think are the solutions for the conflict?	Neutral
+What is your opinion?	Neutral
+Why do you say that?	Neutral
+Why?	Negative
+With pleasure.	Positive
+Wrong.	Neutral
+Yes.	Neutral
+you are invited to visit	Neutral
+You're right.	Neutral
+You're wrong.	Negative
+Hello	Neutral
+Hi	Neutral
+See you tomorrow	Positive
+See you soon	Positive
+Talking with you was a waste of time	Negative
+I hope we will never meet again	Neutral
+I would like to have more opportunities to share the cultures	Neutral
+Thank you	Neutral
+I hope we will meet again	Neutral
+It was interesting talking to you	Positive
+It wasn't nice to talk to you	Negative
+Where are you from?	Neutral
+How are you?	Neutral
+You?	Neutral
+Where?	Neutral
+What?	Neutral
+Why?	Negative
+What are you doing!?	Neutral
+What are you saying!?	Neutral
+Where is the problem?	Neutral
+What are looking for here? Come back to your country	Neutral
+Do you really think that I will do it?	Neutral
+Yes	Neutral
+Fine	Neutral
+Ok	Neutral
+Doesn't matter	Neutral
+Absolutely no!	Negative
+You are right	Neutral
+I don't feel well	Negative
+No	Negative
+I don't know	Neutral
+I couldn't care less	Negative
+I don't care	Negative
+Me too	Neutral
+I am sorry	Negative
+Go back to your country!	Neutral
+I don't like your behaviour	Negative
+I am from Italy	Neutral
+I am from Asia	Neutral
+I am from Africa	Neutral
+You disgust me	Neutral
+I made a mistake	Negative
+I don't want to mix the cultures	Neutral
+I don't want to continue this conversation	Neutral
+Do you have any problems to approach girls from this country?	Neutral
+Why do we have to stay with them?	Negative
+I don't want to stay with them	Neutral
+A girl will never find a husband wearing like that!	Neutral
+I want to be only with people from my region	Neutral
+I prefer to spend time with Italians	Neutral
+I like that everyone can express their opinion	Positive
+Can you give me your mobile phone?	Neutral
+Would you like to drink a coffe with me?	Neutral
+Despite the veil, your women are more depraved	Negative
+I always have problems to communicate with European women!	Positive
+We usually meet our wife for the first time during the weeding	Neutral
+I don't tolerate that the women have to wear the veil	Negative
+My friends' experiences with women ended very badly	Negative
+I have never had any interactions with Italian girl	Neutral
+I really appreciate that you're trying to integrate our communities	Negative
+European women have more freedom	Neutral
+For me, there aren't any differences between Christian and Muslim girls	Negative
+We use to marry our cousine	Negative
+Marriages are usually forced by our parents	Neutral
+I don't think that our culture would ever find a compromise	Neutral
+I don't understand why women should work	Negative
+The girls in this country don't demonstrate respect for the men	Negative
+I just want to be accepted	Neutral
+The girls should at least cover the hair	Neutral
+I don't want a girlfriend from this country	Neutral
+I wish there was no more prejudice	Negative
+Would you like to have a coffee with me?	Neutral
+I prefer some tea	Neutral
+I would like to have a coffee with you	Neutral
+You were late! You don't have any respect for me	Negative
+What do you think about this situation?	Neutral
+How could it be possible that they have this behaviour!?	Neutral
+What do you think about policians?	Neutral
+Do you think that this is correct?	Neutral
+Do you think that this is normal?	Neutral
+Would you like to have more mosques?	Neutral
+They cause only crime!	Negative
+I wish they could find a job easily!	Negative
+Italians receive their houses for free!	Positive
+The immigrants can only ruin my country!	Negative
+The Italians don't understand our situation	Negative
+I would like to increase the video surveillance	Neutral
+The police has to send them back to their country	Neutral
+Building more mosques means more terrorism	Neutral
+This is the only way to avoid that immigrants to steal our work!	Negative
+The immigrants are invading my country	Neutral
+I would like to find a way to integrate immigrants in our country	Negative
+Shut up! You get money from my country but I don't have any money for myself!	Negative
+This idea is awesome	Positive
+Politicians are behaving very badly!	Negative
+Police forces are doing their work at least	Neutral
+All immigrants should be thrown out of the country	Negative
+They should do this more frequently	Neutral
+My country is paying enough money to support the immigrants	Negative
+I think some people are very ignorant	Negative
+The police forces are careless	Negative
+I would like to see more mosques built here	Negative
+It is necessary to build more reception centres to help those people	Neutral
+Respect the rules	Neutral
+These rules do not make any sense	Neutral
+Of you mess it, clean it	Negative
+Nobody respect the rules here	Positive
+You are not my boss	Neutral
+This is not my home	Negative
+I do not understand how to do it	Neutral
+You do not respect me	Negative
+Clean up here	Positive
+It is not my duty	Negative
+If everyone respect the rules there wouldn't be any problems	Neutral
+In my country, you can't do that	Negative
+You must wait in the queue	Neutral
+I will nevere become an Italian citizen	Neutral
+You will never have the right to become an Italian citizen	Neutral
+You stole!	Neutral
+You behave in this way only because I am a migrants	Negative
+I skip the queue	Negative
+I call the police	Neutral
+That is useless	Negative
+The bureaucracy is a problem	Neutral
+Hello	Neutral
+Hi	Neutral
+See you soon	Positive
+Talking with you was a waste of time	Negative
+I hope we will never meet again	Neutral
+Thank you	Neutral
+I hope we will meet again	Neutral
+It was interesting talking to you	Positive
+It wasn't nice to talk to you	Negative
+Where are you from?	Neutral
+How are you?	Neutral
+You?	Neutral
+Where?	Neutral
+What?	Neutral
+Why?	Negative
+What are you doing!?	Neutral
+What are you saying!?	Neutral
+Where is the problem?	Neutral
+What are looking for here? Come back to your country	Neutral
+Do you really think that I will do it?	Neutral
+Yes	Neutral
+Fine	Neutral
+Ok	Neutral
+Doesn't matter	Neutral
+Absolutely no!	Negative
+You are right	Neutral
+I don't feel well	Negative
+No	Negative
+I don't know	Neutral
+I couldn't care less	Negative
+I don't care	Negative
+Me too	Neutral
+I am sorry	Negative
+Go back to your country!	Neutral
+I don't like your behaviour	Negative
+I am from Italy	Neutral
+I am from Asia	Neutral
+I am from Africa	Neutral
+You disgust me	Neutral
+I made a mistake	Negative
+I don't want to mix the cultures	Neutral
+I don't want to continue this conversation	Neutral
+Do you have any problems to approach girls from this country?	Neutral
+Why do we have to stay with them?	Negative
+I don't want to stay with them	Neutral
+A girl will never find a husband wearing like that!	Neutral
+I want to be only with people from my region	Neutral
+I prefer to spend time with Italians	Neutral
+I like that everyone can express their opinion	Positive
+Can you give me your mobile phone?	Neutral
+Muslim women do not understand anything	Negative
+Despite the veil, your women are more depraved	Negative
+I always have problems to communicate with European women!	Positive
+I don't tolerate that the women have to wear the veil	Negative
+My friends' experiences with women ended very badly	Negative
+In this way women respect their faith	Positive
+Respect my culture, as I respect yours	Positive
+You do not understand: that's our culture	Neutral
+I have never had any interactions with Italian girl	Neutral
+I really appreciate that you're trying to integrate our communities	Negative
+European women have more freedom	Neutral
+For me, there aren't any differences between Christian and Muslim girls	Negative
+I don't think that our culture would ever find a compromise	Neutral
+I don't understand why women should work	Negative
+The girls in this country don't demonstrate respect for the men	Negative
+The girls should at least cover the hair	Neutral
+I don't want a girlfriend from this country	Neutral
+I wish there was no more prejudice	Negative
+I go for a walk	Neutral
+I am sure that this is migrants fault!	Negative
+I just want to be accepted	Neutral
+You have no respect for my city	Negative
+Italians have many prejudices	Neutral
+I will put the banana peel in this trash, altought it's not my fault	Negative
+I respect your city and I would like to be accepted	Positive
+Italians always think that the migrants are the guilties!	Neutral
+It's not my fault	Negative
+Come back to your country	Neutral
+It's your fault!	Neutral
+The migrants dirty my city!	Neutral
+The girl close to me put the banana peel on the ground	Neutral
+Why do you have to think that it is my fault?	Negative
+Someone throwed the trash on the ground	Negative
+Hi, could you please…	Positive
+No, I don't talk with you	Neutral
+Thanks a lot for your help	Positive
+You are too stupid	Negative
+You don't understand: I just want to know the directions for the station!	Negative
+Go straight till the end of this street, then turn left!	Neutral
+I can show you the right way	Positive
+I can come with you	Positive
+Go away!	Neutral
+I am lost	Neutral
+Why are you disturbing me?	Negative
+I would like to know the directions for the train station	Neutral
+Could you help me?	Neutral
+Stop begging for money	Neutral
+Look, i am not asking for money	Negative
+Give me the bike's documents	Positive
+I am tired to be considered a thief	Negative
+The police has stopped me 10 times already	Negative
+There are other people with the bike, why did you stop me?	Negative
+Why are you blaming me?	Negative
+You stole this bike!	Positive
+Why do you think so?	Negative
+You are a thief!	Neutral
+You, migrants, have to stop to steal	Negative
+That bike is very nice!	Very positive
+I can show you the receipt!	Positive
+This is my bike	Neutral
+I did not steal the bike!	Neutral
+I am going for a bike ride!	Positive

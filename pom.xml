@@ -11,6 +11,7 @@
         <module>dh-utils-tint</module>
         <module>dh-utils-crfsuite</module>
         <module>dh-utils-iprase</module>
+        <module>dh-utils-migrantech</module>
     </modules>
 
     <parent>

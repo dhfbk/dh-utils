@@ -19,7 +19,6 @@ import javax.xml.xpath.XPathFactory;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.TreeMap;
 
 /**
  * Created by alessio on 15/06/17.

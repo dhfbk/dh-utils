@@ -22,7 +22,6 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 import java.io.*;
-import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
 

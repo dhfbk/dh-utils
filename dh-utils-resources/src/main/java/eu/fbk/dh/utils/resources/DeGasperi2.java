@@ -1,8 +1,5 @@
 package eu.fbk.dh.utils.resources;
 
-import edu.stanford.nlp.ling.CoreAnnotations;
-import edu.stanford.nlp.pipeline.Annotation;
-import edu.stanford.nlp.util.CoreMap;
 import eu.fbk.dh.tint.runner.TintPipeline;
 import eu.fbk.dh.tint.runner.TintRunner;
 import eu.fbk.utils.core.CommandLine;
@@ -22,7 +19,6 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 import java.io.*;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**

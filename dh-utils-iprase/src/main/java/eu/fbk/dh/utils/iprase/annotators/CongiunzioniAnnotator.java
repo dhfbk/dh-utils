@@ -1,6 +1,6 @@
 package eu.fbk.dh.utils.iprase.annotators;
 
-import eu.fbk.dh.utils.iprase.utils.WordsAnnotator;
+import eu.fbk.dh.utils.iprase.annotators.abstracts.WordsAnnotator;
 
 public class CongiunzioniAnnotator extends WordsAnnotator {
 

@@ -1,0 +1,22 @@
+<Configuration>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %c:%L - %msg%n"/>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <!--<Root level="error">-->
+            <!--<AppenderRef level="error" ref="Console" />-->
+        <!--</Root>-->
+        <Logger name="eu.fbk." level="info">
+            <AppenderRef level="info" ref="Console" />
+        </Logger>
+        <Logger name="edu.stanford" level="error">
+            <AppenderRef level="error" ref="Console" />
+        </Logger>
+        <Logger name="eu.fbk.dh.tint" level="error">
+            <AppenderRef level="error" ref="Console" />
+        </Logger>
+    </Loggers>
+</Configuration>

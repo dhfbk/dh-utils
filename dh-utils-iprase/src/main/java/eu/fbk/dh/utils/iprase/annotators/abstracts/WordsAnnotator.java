@@ -1,4 +1,4 @@
-package eu.fbk.dh.utils.iprase.utils;
+package eu.fbk.dh.utils.iprase.annotators.abstracts;
 
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;

@@ -7,7 +7,7 @@ import edu.stanford.nlp.util.CoreMap;
 import eu.fbk.dh.tint.digimorph.DigiMorph;
 import eu.fbk.dh.utils.iprase.annotations.AnnotationEvent;
 import eu.fbk.dh.utils.iprase.annotations.GenericEvent;
-import eu.fbk.dh.utils.iprase.utils.CatAnnotator;
+import eu.fbk.dh.utils.iprase.annotators.abstracts.CatAnnotator;
 
 import java.util.ArrayList;
 import java.util.HashSet;

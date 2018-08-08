@@ -2,7 +2,7 @@ package eu.fbk.dh.utils.iprase.annotators;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import eu.fbk.dh.utils.iprase.utils.WordsAnnotator;
+import eu.fbk.dh.utils.iprase.annotators.abstracts.WordsAnnotator;
 
 import java.net.URL;
 
@@ -62,7 +62,6 @@ public class AnglicismiAnnotator extends WordsAnnotator {
         wordsLabel.put("stalkerare", "Adattato");
 
         wordsLabel.put("stressare", "Adattato");
-        wordsLabel.put("formattare", "Adattato");
         wordsLabel.put("flippare", "Adattato");
         wordsLabel.put("schedulare", "Adattato");
         wordsLabel.put("scrollare", "Adattato");
@@ -71,7 +70,6 @@ public class AnglicismiAnnotator extends WordsAnnotator {
         wordsLabel.put("strippare", "Adattato");
         wordsLabel.put("zippare", "Adattato");
         wordsLabel.put("testare", "Adattato");
-        wordsLabel.put("chattare", "Adattato");
         wordsLabel.put("cliccare", "Adattato");
         wordsLabel.put("formattare", "Adattato");
         wordsLabel.put("forwardare", "Adattato");
@@ -101,7 +99,6 @@ public class AnglicismiAnnotator extends WordsAnnotator {
         wordsLabel.put("testato", "Adattato");
         wordsLabel.put("chattato", "Adattato");
         wordsLabel.put("cliccato", "Adattato");
-        wordsLabel.put("formattato", "Adattato");
         wordsLabel.put("forwardato", "Adattato");
         wordsLabel.put("installato", "Adattato");
         wordsLabel.put("linkato", "Adattato");

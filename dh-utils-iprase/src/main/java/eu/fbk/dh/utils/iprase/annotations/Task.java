@@ -1,7 +1,7 @@
 package eu.fbk.dh.utils.iprase.annotations;
 
 import edu.stanford.nlp.pipeline.Annotation;
-import eu.fbk.dh.utils.iprase.utils.CatAnnotator;
+import eu.fbk.dh.utils.iprase.annotators.abstracts.CatAnnotator;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -28,4 +28,12 @@ public class CatAnnotations {
         }
     }
 
+    @JSONLabel("normalized_sentence")
+    public static class NormalizedSentenceAnnotation implements CoreAnnotation<NormalizedSentence> {
+
+        public Class<NormalizedSentence> getType() {
+            return ErasureUtils.uncheckedCast(NormalizedSentence.class);
+        }
+    }
+
 }

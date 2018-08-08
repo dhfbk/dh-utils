@@ -1,6 +1,6 @@
 package eu.fbk.dh.utils.iprase.annotators;
 
-import eu.fbk.dh.utils.iprase.utils.WordsAnnotator;
+import eu.fbk.dh.utils.iprase.annotators.abstracts.WordsAnnotator;
 
 public class LoroAnnotator extends WordsAnnotator {
 
@@ -13,6 +13,9 @@ public class LoroAnnotator extends WordsAnnotator {
         wordsToCount.add("essa");
         wordsToCount.add("essi");
         wordsToCount.add("esse");
+        wordsToCount.add("lei");
+        wordsToCount.add("lui");
+        wordsToCount.add("loro");
         super.load();
     }
 }

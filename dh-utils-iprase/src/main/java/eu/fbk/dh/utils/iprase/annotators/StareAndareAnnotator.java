@@ -6,7 +6,7 @@ import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.util.CoreMap;
 import eu.fbk.dh.utils.iprase.annotations.GenericEvent;
 import eu.fbk.dh.utils.iprase.annotations.StatisticsEvent;
-import eu.fbk.dh.utils.iprase.utils.CatAnnotator;
+import eu.fbk.dh.utils.iprase.annotators.abstracts.CatAnnotator;
 import eu.fbk.utils.corenlp.CustomAnnotations;
 
 import java.util.*;

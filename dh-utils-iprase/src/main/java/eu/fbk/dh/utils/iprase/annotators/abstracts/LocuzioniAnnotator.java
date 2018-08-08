@@ -1,4 +1,4 @@
-package eu.fbk.dh.utils.iprase.utils;
+package eu.fbk.dh.utils.iprase.annotators.abstracts;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;

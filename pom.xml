@@ -12,6 +12,9 @@
         <module>dh-utils-crfsuite</module>
         <module>dh-utils-iprase</module>
         <module>dh-utils-migrantech</module>
+        <module>dh-utils-srb</module>
+        <module>dh-utils-ff</module>
+        <module>dh-utils-ppche</module>
     </modules>
 
     <parent>

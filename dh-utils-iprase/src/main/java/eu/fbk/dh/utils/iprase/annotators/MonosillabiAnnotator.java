@@ -10,8 +10,8 @@ import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.util.CoreMap;
 import eu.fbk.dh.utils.iprase.annotations.AnnotationEvent;
 import eu.fbk.dh.utils.iprase.annotations.GenericEvent;
-import eu.fbk.dh.utils.iprase.utils.CatAnnotator;
-import eu.fbk.dh.utils.iprase.utils.LocuzioniAnnotator;
+import eu.fbk.dh.utils.iprase.annotators.abstracts.CatAnnotator;
+import eu.fbk.dh.utils.iprase.annotators.abstracts.LocuzioniAnnotator;
 import eu.fbk.utils.core.FrequencyHashSet;
 
 import java.net.URL;
@@ -28,7 +28,6 @@ public class MonosillabiAnnotator extends CatAnnotator {
     private class SeStessoAnnotator extends LocuzioniAnnotator {
 
         @Override public void load() {
-            this.locuzioniToCount.add(" se stesso ");
             this.locuzioniToCount.add(" se stesso ");
             this.locuzioniToCount.add(" sé stesso ");
             this.locuzioniToCount.add(" sè stesso ");

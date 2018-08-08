@@ -1,4 +1,4 @@
-package eu.fbk.dh.utils.iprase;
+package eu.fbk.dh.utils.iprase.utils;
 
 import java.util.Properties;
 

@@ -63,6 +63,7 @@ public class ConvertWordToTxt {
                     //
                     if (!wordFile.getName().toLowerCase().endsWith("doc")
                             && !wordFile.getName().toLowerCase().endsWith("docx")) {
+                        LOGGER.error("Invalid file {}", wordFile.getName());
                         continue;
                     }
 

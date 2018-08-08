@@ -2,18 +2,52 @@ package eu.fbk.dh.utils.iprase;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.pipeline.Annotation;
-import edu.stanford.nlp.util.CoreMap;
 import eu.fbk.dh.tint.runner.TintPipeline;
+import eu.fbk.dh.utils.iprase.utils.IpraseProperties;
 import eu.fbk.utils.core.CommandLine;
 import eu.fbk.utils.corenlp.outputters.JSONOutputter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.Properties;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class ParseTexts {
+
+    static class ParseSingle implements Runnable {
+
+        private Properties pipelineProperties;
+        private File inputFile;
+        private File outputFile;
+
+        public ParseSingle(Properties pipelineProperties, File inputFile, File outputFile) {
+            this.pipelineProperties = pipelineProperties;
+            this.inputFile = inputFile;
+            this.outputFile = outputFile;
+        }
+
+        @Override
+        public void run() {
+            try {
+                LOGGER.info(inputFile.getName());
+                String text = Files.toString(inputFile, Charsets.UTF_8);
+
+                TintPipeline pipeline = new TintPipeline();
+                pipeline.setProps(pipelineProperties);
+                pipeline.load();
+
+                Annotation annotation = pipeline.runRaw(text);
+                String json = JSONOutputter.jsonPrint(annotation);
+                Files.write(json, outputFile, Charsets.UTF_8);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ParseTexts.class);
 
@@ -30,12 +64,14 @@ public class ParseTexts {
                     .withOption("n", "num-files", "Number of files to parse (default: all)", "NUM", CommandLine.Type.NON_NEGATIVE_INTEGER, true,
                             false, false)
                     .withOption("w", "skip-overwrite", "Skip files if they exist in output folder")
+                    .withOption("t", "threads", "Number of threads", "THREADS", CommandLine.Type.POSITIVE_INTEGER, true, false, false)
                     .withLogger(LoggerFactory.getLogger("eu.fbk")).parse(args);
 
             File inputFolder = cmd.getOptionValue("input", File.class);
             File outputFolder = cmd.getOptionValue("output", File.class);
             Integer numFiles = cmd.getOptionValue("num-files", Integer.class, 0);
             boolean overwrite = !cmd.hasOption("skip-overwrite");
+            Integer threads = cmd.getOptionValue("threads", Integer.class, 1);
 
             if (!outputFolder.exists()) {
                 outputFolder.mkdirs();
@@ -48,7 +84,7 @@ public class ParseTexts {
                     "monosillabi, apostrofi, maiuscole, articoli, loro, gli, quest, trivial, imperfetti, gerundi, ind_pres, " +
                     "stare_andare, affissi, nominali, connettivi, congiunzioni, punteggiatura, perche_quando, gergale, anglicismi, " +
                     "politicamente_corretto, polirematiche, plastismi, frasi_scisse, li, d_eufonica, " +
-//                    "perche_quando" +
+//                    "perche_quando, " +
                     "");
 
             pipeline.setProperty("customAnnotatorClass.ita_derivatario", "eu.fbk.dh.tint.derived.DerivationAnnotator");
@@ -57,10 +93,13 @@ public class ParseTexts {
 
             pipeline.load();
 
+            Properties pipelineProps = pipeline.getProps();
+
             int i = 0;
 
-            File[] files = inputFolder.listFiles();
+            ExecutorService pool = Executors.newFixedThreadPool(threads);
 
+            File[] files = inputFolder.listFiles();
             for (File file : files) {
                 if (!file.isFile()) {
                     continue;
@@ -74,7 +113,7 @@ public class ParseTexts {
                     break;
                 }
 
-                LOGGER.info(String.format("%s - %d/%d", file.getName(), i, files.length));
+//                LOGGER.info(String.format("%s - %d/%d", file.getName(), i, files.length));
                 String jsonFileName = outputFolder.getAbsolutePath() + File.separator + file.getName() + ".json";
                 File outputFile = new File(jsonFileName);
 
@@ -82,23 +121,20 @@ public class ParseTexts {
                     LOGGER.info("Skipping file {}", outputFile.getName());
                     continue;
                 }
-                String text = Files.toString(file, Charsets.UTF_8);
-                text = text.replaceAll("\\.{3,}", "...");
 
-//                text = "Gianni non prestava molta attenzione ad alcune cose.";
-                Annotation annotation = pipeline.runRaw(text);
-                String json = JSONOutputter.jsonPrint(annotation);
-
-                Files.write(json, outputFile, Charsets.UTF_8);
-
-                if (i == 1) {
-                    for (CoreMap sentence : annotation.get(CoreAnnotations.SentencesAnnotation.class)) {
-                        System.out.println(sentence.get(CoreAnnotations.TextAnnotation.class));
-                    }
-
-//                    LOGGER.debug(json);
-                }
+                pool.submit(new ParseSingle(pipelineProps, file, outputFile));
+//                String text = Files.toString(file, Charsets.UTF_8);
+//                text = text.replaceAll("\\.{3,}", "...");
+//
+//                Annotation annotation = pipelineProperties.runRaw(text);
+//                String json = JSONOutputter.jsonPrint(annotation);
+//
+//                Files.write(json, outputFile, Charsets.UTF_8);
             }
+
+            pool.shutdown();
+            pool.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
+            pool.shutdownNow();
         } catch (Exception e) {
             CommandLine.fail(e);
         }

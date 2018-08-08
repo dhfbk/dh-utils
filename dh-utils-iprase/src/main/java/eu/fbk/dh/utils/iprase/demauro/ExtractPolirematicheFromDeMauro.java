@@ -1,4 +1,4 @@
-package eu.fbk.dh.utils.iprase.utils;
+package eu.fbk.dh.utils.iprase.demauro;
 
 import com.google.common.base.Charsets;
 import edu.stanford.nlp.ling.CoreLabel;

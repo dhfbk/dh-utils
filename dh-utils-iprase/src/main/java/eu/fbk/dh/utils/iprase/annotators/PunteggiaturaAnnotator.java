@@ -5,7 +5,7 @@ import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
 import eu.fbk.dh.utils.iprase.annotations.GenericEvent;
 import eu.fbk.dh.utils.iprase.annotations.StatisticsEvent;
-import eu.fbk.dh.utils.iprase.utils.WordsAnnotator;
+import eu.fbk.dh.utils.iprase.annotators.abstracts.WordsAnnotator;
 
 import java.util.List;
 import java.util.regex.Matcher;

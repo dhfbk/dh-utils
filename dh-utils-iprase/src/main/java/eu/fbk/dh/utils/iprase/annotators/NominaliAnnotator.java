@@ -9,14 +9,17 @@ import eu.fbk.dh.tint.verb.VerbMultiToken;
 import eu.fbk.dh.utils.iprase.annotations.AnnotationEvent;
 import eu.fbk.dh.utils.iprase.annotations.GenericEvent;
 import eu.fbk.dh.utils.iprase.annotations.StatisticsEvent;
-import eu.fbk.dh.utils.iprase.utils.CatAnnotator;
+import eu.fbk.dh.utils.iprase.annotators.abstracts.CatAnnotator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class NominaliAnnotator extends CatAnnotator {
 
     private StatisticsEvent statisticsEvent = new StatisticsEvent();
+    Pattern twoNpattern = Pattern.compile("\n[\r]?\n");
 
     @Override
     public void load() {
@@ -39,6 +42,14 @@ public class NominaliAnnotator extends CatAnnotator {
             words++;
         }
 
+        String allText = annotation.get(CoreAnnotations.TextAnnotation.class);
+        Matcher matcher = twoNpattern.matcher(allText);
+        int doubleN = -1;
+        if (matcher.find()) {
+            doubleN = matcher.start();
+        }
+//        System.out.println("Found double N on " + doubleN);
+
         for (CoreMap sentence : annotation.get(CoreAnnotations.SentencesAnnotation.class)) {
             sentences++;
             List<VerbMultiToken> verbs = sentence.get(VerbAnnotations.VerbsAnnotation.class);
@@ -56,7 +67,9 @@ public class NominaliAnnotator extends CatAnnotator {
 
                 AnnotationEvent event = new AnnotationEvent(sentenceID, tokens, text, "-", begin, end);
                 ret.add(event);
-                statisticsEvent.add("frasi_nominali");
+                if (begin > doubleN) {
+                    statisticsEvent.add("frasi_nominali");
+                }
             }
         }
 

@@ -6,7 +6,7 @@ import edu.stanford.nlp.util.CoreMap;
 import eu.fbk.dh.tint.verb.VerbAnnotations;
 import eu.fbk.dh.tint.verb.VerbMultiToken;
 import eu.fbk.dh.utils.iprase.annotations.GenericEvent;
-import eu.fbk.dh.utils.iprase.utils.CatAnnotator;
+import eu.fbk.dh.utils.iprase.annotators.abstracts.CatAnnotator;
 import eu.fbk.dh.utils.iprase.utils.EventUtils;
 
 import java.util.ArrayList;

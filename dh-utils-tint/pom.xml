@@ -13,95 +13,58 @@
 
     <dependencies>
         <dependency>
-            <groupId>eu.fbk.fcw</groupId>
-            <artifactId>fcw-stemmer</artifactId>
-            <version>${fcw-version}</version>
-            <scope>test</scope>
+            <groupId>edu.stanford.nlp</groupId>
+            <artifactId>stanford-corenlp</artifactId>
         </dependency>
         <dependency>
             <groupId>eu.fbk.fcw</groupId>
-            <artifactId>fcw-depparse</artifactId>
-            <version>${fcw-version}</version>
-            <scope>test</scope>
+            <artifactId>fcw-udpipe-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>eu.fbk.dh</groupId>
             <artifactId>tint-runner</artifactId>
-            <version>${tint-version}</version>
-            <scope>test</scope>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>eu.fbk.fcw</groupId>
-            <artifactId>fcw-semafor-translate</artifactId>
-            <version>${fcw-version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.8.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>eu.fbk.utils</groupId>
-            <artifactId>utils-gson</artifactId>
-            <version>${utils-version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>eu.fbk.utils</groupId>
-            <artifactId>utils-corenlp</artifactId>
-            <version>${utils-version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>edu.stanford.nlp</groupId>
-            <artifactId>stanford-corenlp</artifactId>
-            <version>${stanford-version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>edu.stanford.nlp</groupId>
-            <artifactId>stanford-corenlp</artifactId>
-            <version>${stanford-version}</version>
-            <classifier>models</classifier>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <scope>test</scope>
+            <artifactId>fcw-herodotos</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>eu.fbk.dh</groupId>
-            <artifactId>tint-derived</artifactId>
-            <version>${tint-version}</version>
-            <scope>test</scope>
+            <artifactId>dh-utils-iprase</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>eu.fbk.fcw</groupId>
-            <artifactId>fcw-mate</artifactId>
-            <version>${fcw-version}</version>
-            <scope>test</scope>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.6</version>
         </dependency>
         <dependency>
-            <groupId>edu.cmu.cs.lti.ark</groupId>
-            <artifactId>Semafor</artifactId>
-            <version>3.0-alpha-04-FBK</version>
-            <scope>test</scope>
+            <groupId>eu.fbk.dh</groupId>
+            <artifactId>tint-digimorph</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>eu.fbk.utils</groupId>
-            <artifactId>utils-core</artifactId>
-            <version>${utils-version}</version>
-            <scope>test</scope>
+            <groupId>eu.fbk.dh</groupId>
+            <artifactId>KD-StanfordAnnotator</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <profiles>
         <profile>

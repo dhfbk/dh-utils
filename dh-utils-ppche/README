@@ -1,0 +1,8 @@
+# ExtractExamples
+For each tag, give a list of examples that can be used to understand whether the tag can be mapped to another one.
+Lines having a tag start with ###: in these lines, one can add a tab and another tag that will result in a mapping
+for the ExtractForStanford script.
+
+# ExtractForStanford
+Create train and test dataset using the example file for mapping.
+

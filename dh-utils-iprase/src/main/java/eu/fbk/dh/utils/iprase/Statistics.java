@@ -44,8 +44,7 @@ public class Statistics {
             final CommandLine cmd = CommandLine
                     .parser()
                     .withName("./extract-statistics")
-                    .withHeader(
-                            "Get statistics from JSON files")
+                    .withHeader("Get statistics from JSON files")
                     .withOption("i", "input", "Input JSON folder", "FOLDER", CommandLine.Type.DIRECTORY_EXISTING, true, false, true)
                     .withOption("t", "tsv", "TSV years file", "FILE", CommandLine.Type.FILE_EXISTING, true, false, true)
                     .withOption("o", "output", "Output file", "FILE", CommandLine.Type.FILE, true, false, true)
@@ -82,8 +81,8 @@ public class Statistics {
                 if (parts.length < 2) {
                     continue;
                 }
-                if (parts.length > 4) {
-                    schools.put(parts[0], parts[4]);
+                if (parts.length > 2) {
+                    schools.put(parts[0], parts[2]);
                 }
 
                 years.put(parts[0], parts[1]);
@@ -106,6 +105,7 @@ public class Statistics {
                 String id = file.getName().replaceAll("[^0-9]", "");
                 String year = years.get(id);
                 String school = schools.get(id);
+//                System.out.println(school);
 
                 JsonObject myJson = gson.fromJson(Files.toString(file, Charsets.UTF_8), JsonObject.class);
                 populateResults(yearResults, myJson, id, year, yearMeasures);

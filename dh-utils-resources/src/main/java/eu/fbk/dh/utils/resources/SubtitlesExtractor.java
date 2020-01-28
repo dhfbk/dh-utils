@@ -46,7 +46,7 @@ public class SubtitlesExtractor {
 
             BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile));
 
-            String[] extensions = { "xml.gz" };
+            String[] extensions = { "xml.gz", "xml" };
             Iterator<File> fileIterator = FileUtils.iterateFiles(inputFile, extensions, true);
 
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();

@@ -1,14 +1,14 @@
 package eu.fbk.dh.utils.resources;
 
-import edu.stanford.nlp.pipeline.Annotation;
-import eu.fbk.dh.tint.readability.Readability;
-import eu.fbk.dh.tint.readability.ReadabilityAnnotations;
 import eu.fbk.dh.tint.runner.TintPipeline;
 import eu.fbk.dh.tint.runner.TintRunner;
 import eu.fbk.utils.core.CommandLine;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPOutputStream;

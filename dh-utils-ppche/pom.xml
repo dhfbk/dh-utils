@@ -27,6 +27,11 @@
             <version>3.2-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <groupId>eu.fbk.utils</groupId>
+            <artifactId>utils-gson</artifactId>
+            <version>3.2-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>org.jodd</groupId>
             <artifactId>jodd-lagarto</artifactId>
             <version>3.4.7</version>
@@ -39,6 +44,7 @@
             <groupId>edu.stanford.nlp</groupId>
             <artifactId>stanford-corenlp</artifactId>
             <classifier>models</classifier>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>eu.fbk.dh</groupId>
@@ -49,6 +55,10 @@
             <groupId>eu.fbk.utils</groupId>
             <artifactId>utils-corenlp</artifactId>
             <version>3.2-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
         </dependency>
     </dependencies>
 

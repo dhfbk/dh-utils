@@ -17,5 +17,9 @@
             <artifactId>utils-core</artifactId>
             <version>3.2-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
     </dependencies>
 </project>

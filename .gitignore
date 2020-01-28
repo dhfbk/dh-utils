@@ -5,3 +5,5 @@ tagger-scripts*
 lib
 .DS_Store
 configuration
+dh-utils-youtube/src/main/resources
+

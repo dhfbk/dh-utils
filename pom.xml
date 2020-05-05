@@ -35,6 +35,7 @@
         <module>dh-utils-creep</module>
         <module>dh-utils-interviews</module>
         <module>dh-utils-daniela</module>
+        <module>dh-utils-covid</module>
     </modules>
 
     <parent>

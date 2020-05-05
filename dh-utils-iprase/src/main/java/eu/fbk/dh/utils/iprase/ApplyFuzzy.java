@@ -24,7 +24,7 @@ public class ApplyFuzzy {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplyFuzzy.class);
     private static int LEN_LIMIT = 20;
-    private static int FUZZY_LIMIT = 90;
+    private static int FUZZY_LIMIT = 80;
     private static double MIN_RATIO = 0.9;
 //    private static double MAX_RATIO = 1.5;
 
@@ -46,17 +46,21 @@ public class ApplyFuzzy {
                     .withOption("q", "quotes", "Quotes folder", "FILE", CommandLine.Type.DIRECTORY_EXISTING, true, false, true)
                     .withOption("o", "output", "Output folder", "FILE", CommandLine.Type.DIRECTORY, true, false, true)
                     .withOption("y", "years", "Years file", "FILE", CommandLine.Type.FILE_EXISTING, true, false, true)
+                    .withOption("s", "statistics", "Output file with statistics", "FILE", CommandLine.Type.FILE, true, false, true)
                     .withLogger(LoggerFactory.getLogger("eu.fbk")).parse(args);
 
             File inputFolder = cmd.getOptionValue("input", File.class);
             File quotesFolder = cmd.getOptionValue("quotes", File.class);
             File outputFolder = cmd.getOptionValue("output", File.class);
+            File statisticsFile = cmd.getOptionValue("statistics", File.class);
             File yearsFile = cmd.getOptionValue("years", File.class);
 
             LOGGER.info("Loading years file");
             BufferedReader reader = new BufferedReader(new FileReader(yearsFile));
             String line;
             Map<Integer, String> years = new HashMap<>();
+            Map<Integer, String> schools = new HashMap<>();
+            Map<Integer, String> schoolNames = new HashMap<>();
             while ((line = reader.readLine()) != null) {
                 line = line.trim();
                 String[] parts = line.split("\t");
@@ -67,6 +71,10 @@ public class ApplyFuzzy {
                 try {
                     int id = Integer.parseInt(parts[0]);
                     String year = parts[1].trim();
+                    String school = parts[4].trim();
+                    String schoolName = parts[3].trim();
+                    schools.put(id, school);
+                    schoolNames.put(id, schoolName);
                     String[] yParts = year.split("-");
                     if (yParts.length < 2) {
                         continue;
@@ -81,9 +89,9 @@ public class ApplyFuzzy {
             }
             reader.close();
 
-            if (!outputFolder.exists()) {
-                outputFolder.mkdirs();
-            }
+//            if (!outputFolder.exists()) {
+//                outputFolder.mkdirs();
+//            }
 
             TintPipeline quotePipeline = new TintPipeline();
             quotePipeline.loadDefaultProperties();
@@ -125,6 +133,7 @@ public class ApplyFuzzy {
                 originalQuotes.put(quotesFile.getName(), tracciaSentences);
             }
 
+            BufferedWriter writer = new BufferedWriter(new FileWriter(statisticsFile));
 
             LOGGER.info("Loading files");
             for (File file : inputFolder.listFiles()) {
@@ -132,7 +141,7 @@ public class ApplyFuzzy {
                     continue;
                 }
 
-//                if (!file.getName().equals("1506.txt")) {
+//                if (!file.getName().equals("1313.txt")) {
 //                    continue;
 //                }
 
@@ -140,35 +149,42 @@ public class ApplyFuzzy {
                 String yearFile = years.get(id);
                 if (yearFile == null) {
                     LOGGER.warn("Unable to find year for file " + Integer.toString(id));
+//                    continue;
                 }
+
+                writer.append(file.getName()).append("\t");
+
+                Set<String> quoteTokens = new HashSet<>();
+                Set<String> citationTokens = new HashSet<>();
+
+                writer.append(yearFile).append("\t");
+                writer.append(schools.get(id)).append("\t");
+                writer.append(schoolNames.get(id)).append("\t");
 
                 LOGGER.info(String.format("File: %s (%s)", file.getAbsolutePath(), yearFile));
                 String outputFile = outputFolder.getAbsolutePath() + File.separator + file.getName();
-
-                BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile));
+                BufferedWriter thisFileWriter = new BufferedWriter(new FileWriter(outputFile));
 
                 String text = Files.toString(file, Charsets.UTF_8);
-                StringBuilder finalText = new StringBuilder();
 
                 Annotation annotation = quotePipeline.runRaw(text);
+
+                writer.append(Integer.toString(annotation.get(CoreAnnotations.TokensAnnotation.class).size())).append("\t");
                 List<CoreMap> quotes = annotation.get(CoreAnnotations.QuotationsAnnotation.class);
                 for (CoreMap quote : quotes) {
-                    String quoteText = quote.get(CoreAnnotations.TextAnnotation.class);
-                    quoteText = NormalizationAnotator.normalize(quoteText, true);
-                    System.out.println(quoteText);
+                    for (CoreLabel token : quote.get(CoreAnnotations.TokensAnnotation.class)) {
+                        String tokenID = token.get(CoreAnnotations.SentenceIndexAnnotation.class) + "_" + token.index();
+                        quoteTokens.add(tokenID);
+                    }
+
+//                    String quoteText = quote.get(CoreAnnotations.TextAnnotation.class);
+//                    quoteText = NormalizationAnotator.normalize(quoteText, true);
+//                    System.out.println(quoteText);
+//                    System.out.println();
 //                    for (CoreLabel token : quote.get(CoreAnnotations.TokensAnnotation.class)) {
 //                        System.out.println(token.sentIndex());
 //                    }
                 }
-
-                // RESTART FROM HERE (above)
-                /*
-                *
-                * Bisogna aggiungere i token da escludere a tokensToRemove (vedi sotto)
-                * ovviamente modificando la mappa in modo che includa anche l'ID della sentence
-                *
-                * */
-
 
                 for (CoreMap sentence : annotation.get(CoreAnnotations.SentencesAnnotation.class)) {
                     String originalSentenceText = sentence.get(CoreAnnotations.TextAnnotation.class);
@@ -176,20 +192,28 @@ public class ApplyFuzzy {
                     NormalizedSentence normalizedSentence = sentence.get(CatAnnotations.NormalizedSentenceAnnotation.class);
                     String sentenceText = normalizedSentence.getNormalizedText();
 
-                    boolean keepSent = true;
-                    TreeMap<Integer, Boolean> tokensToRemove = new TreeMap<>();
+//                    boolean keepSent = true;
+//                    TreeMap<Integer, Boolean> tokensToRemove = new TreeMap<>();
 
-                    if (sentenceText.length() >= LEN_LIMIT) {
+                    if (sentenceText.length() >= LEN_LIMIT && yearFile != null) {
                         for (NormalizedSentence normalizedTracciaSentence : originalQuotes.get(yearFile)) {
                             // normalizedTracciaSentence
                             // normalizedSentence
 
                             String tracciaSentence = normalizedTracciaSentence.getNormalizedText();
                             int metric = FuzzySearch.tokenSetRatio(sentenceText, tracciaSentence);
+//                            if (tracciaSentence.contains("per rendere giusta una")) {
+//                                System.out.println(tracciaSentence);
+//                                System.out.println(sentenceText);
+//                                System.out.println(metric);
+//                            }
                             double lengthRatio = (tracciaSentence.length() * 1.0) / (sentenceText.length() * 1.0);
                             if (metric > FUZZY_LIMIT) {
                                 if (lengthRatio > MIN_RATIO) {
-                                    keepSent = false;
+                                    for (CoreLabel token : sentence.get(CoreAnnotations.TokensAnnotation.class)) {
+                                        String tokenID = sentence.get(CoreAnnotations.SentenceIndexAnnotation.class) + "_" + token.index();
+                                        citationTokens.add(tokenID);
+                                    }
                                 } else {
 
 //                                    System.out.println("---");
@@ -214,164 +238,96 @@ public class ApplyFuzzy {
                                                 maxValue = partialMetric;
                                                 maxI = i;
                                             }
-//                                            System.out.println(i);
-//                                            System.out.println(partialMetric);
-//                                            System.out.println(join);
-//                                            System.out.println(tracciaSentence);
-//                                            System.out.println();
                                         }
+                                    }
+                                    else {
+                                        maxI = 0;
                                     }
 
                                     LOGGER.trace("Best: {} ", String.join(" ", sentenceParts.subList(maxI, maxI + tracciaParts.size())));
                                     int firstToken = normalizedSentence.getTokenIDs().get(maxI);
                                     int lastToken = normalizedSentence.getTokenIDs().get(maxI + tracciaParts.size() - 1);
+
+//                                    System.out.println(String.join(" ", sentenceParts.subList(maxI, maxI + tracciaParts.size())));
                                     for (int i = firstToken; i <= lastToken; i++) {
-                                        tokensToRemove.put(i, false);
+                                        String tokenID = sentence.get(CoreAnnotations.SentenceIndexAnnotation.class) + "_" + i;
+                                        citationTokens.add(tokenID);
+//                                        System.out.print(tokenID + " ");
+//                                        tokensToRemove.put(i, false);
                                     }
-                                    tokensToRemove.put(firstToken - 1, true);
-                                    tokensToRemove.put(lastToken + 1, true);
-//                                    System.out.println(best);
-//                                    System.out.println(maxValue);
-//                                    System.out.println(firstToken);
-//                                    System.out.println(lastToken);
+//                                    System.out.println();
+//                                    tokensToRemove.put(firstToken - 1, true);
+//                                    tokensToRemove.put(lastToken + 1, true);
+
                                 }
                             }
                         }
 
                         LOGGER.trace("Original sentence normalized: {}", sentenceText);
-                        LOGGER.trace("Tokens to remove: {}", tokensToRemove.toString());
+//                        LOGGER.trace("Tokens to remove: {}", tokensToRemove.toString());
                     }
 
-                    if (tokensToRemove.size() > 0) {
-                        String newText = originalSentenceText;
-                        for (Integer tokenID : tokensToRemove.descendingKeySet()) {
-                            CoreLabel token;
-                            try {
-                                token = sentence.get(CoreAnnotations.TokensAnnotation.class).get(tokenID - 1);
-                            } catch (ArrayIndexOutOfBoundsException e) {
-                                continue;
-                            }
-                            Boolean checkQuote = tokensToRemove.get(tokenID);
-                            if (checkQuote) {
-                                String tokenText = token.originalText();
-                                if (!quoteSymbols.contains(tokenText)) {
-                                    continue;
-                                }
-                            }
-
-                            Integer sentenceOffset = sentence.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
-                            Integer begin = token.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class) - sentenceOffset;
-                            Integer end = token.get(CoreAnnotations.CharacterOffsetEndAnnotation.class) - sentenceOffset;
-
-                            String before = newText.substring(0, begin);
-                            String after = "";
-                            try {
-                                after = newText.substring(end);
-                            } catch (StringIndexOutOfBoundsException e) {
-                                // nothing
-                            }
-                            newText = before + after;
-                        }
-                        newText = newText.replaceAll("\\s+", " ");
-                        LOGGER.trace("Resulting sentence: {}", newText);
-                        finalText.append(newText).append("\n");
-                    } else if (keepSent) {
-                        finalText.append(originalSentenceText.trim()).append("\n");
+//                    if (tokensToRemove.size() > 0) {
+//                        String newText = originalSentenceText;
+//                        for (Integer tokenID : tokensToRemove.descendingKeySet()) {
+//                            CoreLabel token;
+//                            try {
+//                                token = sentence.get(CoreAnnotations.TokensAnnotation.class).get(tokenID - 1);
+//                            } catch (ArrayIndexOutOfBoundsException e) {
+//                                continue;
+//                            }
+//                            Boolean checkQuote = tokensToRemove.get(tokenID);
+//                            if (checkQuote) {
+//                                String tokenText = token.originalText();
+//                                if (!quoteSymbols.contains(tokenText)) {
+//                                    continue;
+//                                }
+//                            }
+//
+//                            Integer sentenceOffset = sentence.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
+//                            Integer begin = token.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class) - sentenceOffset;
+//                            Integer end = token.get(CoreAnnotations.CharacterOffsetEndAnnotation.class) - sentenceOffset;
+//
+//                            String before = newText.substring(0, begin);
+//                            String after = "";
+//                            try {
+//                                after = newText.substring(end);
+//                            } catch (StringIndexOutOfBoundsException e) {
+//                                // nothing
+//                            }
+//                            newText = before + after;
+//                        }
+//                        newText = newText.replaceAll("\\s+", " ");
+//                        LOGGER.trace("Resulting sentence: {}", newText);
+////                        finalText.append(newText).append("\n");
+//                    } else if (keepSent) {
+////                        finalText.append(originalSentenceText.trim()).append("\n");
+//                    }
+                    for (CoreLabel token : sentence.get(CoreAnnotations.TokensAnnotation.class)) {
+                        String tokenID = token.get(CoreAnnotations.SentenceIndexAnnotation.class) + "_" + token.index();
+                        thisFileWriter.append(token.originalText().replace("\t", " "));
+                        thisFileWriter.append("\t");
+                        thisFileWriter.append(tokenID);
+                        thisFileWriter.append("\t");
+                        thisFileWriter.append(quoteTokens.contains(tokenID) ? "1" : "0");
+                        thisFileWriter.append("\t");
+                        thisFileWriter.append(citationTokens.contains(tokenID) ? "1" : "0");
+                        thisFileWriter.append("\n");
                     }
 
                 }
+//                writer.append(finalText.toString());
+//                writer.close();
 
-//                System.out.println(JSONOutputter.jsonPrint(annotation));
+                writer.append(Integer.toString(quoteTokens.size())).append("\t");
+                writer.append(Integer.toString(citationTokens.size())).append("\t");
+                citationTokens.retainAll(quoteTokens);
+                writer.append(Integer.toString(citationTokens.size())).append("\n");
 
-//                Annotation annotation = pipeline.runRaw(text);
-//
-//                // Get ends of sentences
-//                List<Integer> sentenceEnds = new ArrayList<>();
-//                for (CoreMap sentence : annotation.get(CoreAnnotations.SentencesAnnotation.class)) {
-//                    String sentenceText = sentence.get(CoreAnnotations.TextAnnotation.class);
-////                    System.out.println(sentenceText);
-////                    if (sentenceText.endsWith(";") || sentenceText.endsWith(":") || sentenceText.endsWith("...")) {
-//                    char lastChar = sentenceText.charAt(sentenceText.length() - 1);
-//                    if (lastChar == ';' || lastChar == ':') {
-//                        continue;
-//                    }
-//
-//                    sentenceEnds.add(sentence.get(CoreAnnotations.CharacterOffsetEndAnnotation.class));
-//                }
-//
-//                List<CoreMap> quotes = annotation.get(CoreAnnotations.QuotationsAnnotation.class);
-//                StringBuilder finalText = new StringBuilder();
-//
-//                int lastEnd = 0;
-//                if (quotes != null && quotes.size() > 0) {
-//                    for (CoreMap quote : quotes) {
-//
-//                        Integer begin = quote.get(CoreAnnotations.CharacterOffsetBeginAnnotation.class);
-//                        Integer end = quote.get(CoreAnnotations.CharacterOffsetEndAnnotation.class);
-//                        String quoteText = quote.get(CoreAnnotations.TextAnnotation.class);
-//
-//                        if (begin <= lastEnd) {
-//                            continue;
-//                        }
-//
-//                        finalText.append(text, lastEnd, begin);
-//
-//                        int nextSentenceEnd = text.length() - 1;
-//                        if (quoteText.length() > 200) {
-//                            for (Integer sentenceEnd : sentenceEnds) {
-//                                if (sentenceEnd > begin) {
-//                                    nextSentenceEnd = sentenceEnd;
-//                                    break;
-//                                }
-//                            }
-//                        }
-//
-//                        lastEnd = Math.min(end, nextSentenceEnd);
-////                        System.out.println(String.format("A. %d - %d", lastEnd, begin));
-//
-//                        boolean removeQuote = false;
-//                        quoteText = normalize(quoteText);
-//
-//                        if (quoteText.length() >= 30) {
-//
-//                            for (String originalQuoteKey : originalQuotes.keySet()) {
-//                                String originalQuote = originalQuotes.get(originalQuoteKey);
-//
-//                                int parts = quoteText.length() / 25;
-////                                System.out.println("Quote: " + quoteText);
-//                                for (int i = 0; i < parts; i++) {
-//                                    int offStart = i * 25;
-//                                    int offEnd = offStart + 25;
-//                                    String compare = quoteText.substring(offStart, offEnd);
-////                                    System.out.println("Comparing: " + compare);
-//                                    int index = originalQuote.indexOf(compare);
-//                                    if (index != -1) {
-//                                        removeQuote = true;
-//                                        break;
-//                                    }
-//                                }
-//
-////                            String start = quoteText.substring(0, 25);
-////                            int index = originalQuote.indexOf(start);
-////                            if (index != -1) {
-////                                removeQuote = true;
-////                            }
-//                            }
-//                        }
-//
-//                        if (!removeQuote) {
-//                            finalText.append(text, begin, lastEnd);
-////                            System.out.println(String.format("B. %d - %d", begin, end));
-//                        }
-//                    }
-//                }
-//
-//                finalText.append(text, lastEnd, text.length());
-////                System.out.println(String.format("C. %d - %d", lastEnd, text.length()));
-
-                writer.append(finalText.toString());
-                writer.close();
+                thisFileWriter.close();
             }
+
+            writer.close();
 
         } catch (Exception e) {
             CommandLine.fail(e);

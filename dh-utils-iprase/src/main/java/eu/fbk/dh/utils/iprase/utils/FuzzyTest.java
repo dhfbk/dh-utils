@@ -20,8 +20,8 @@ public class FuzzyTest {
 
 //            File temaFile = new File("/Users/alessio/Google Drive/Temi-Superiori/txt-final/1232.txt");
 //            File tracciaFile = new File("/Users/alessio/Google Drive/Temi-Superiori/tracce/2001.txt");
-            File temaFile = new File("/Users/alessio/Google Drive/Temi-Superiori/txt-final/2093.txt");
-            File tracciaFile = new File("/Users/alessio/Google Drive/Temi-Superiori/tracce/2007.txt");
+            File temaFile = new File("/Volumes/YellowSubmarine/Temi-Superiori/drive-download-20200423T121730Z-001/txt-final/2093.txt");
+            File tracciaFile = new File("/Volumes/YellowSubmarine/Temi-Superiori/tracce/2007.txt");
 
             String fileContent = Files.toString(temaFile, Charsets.UTF_8);
             String tracciaContent = Files.toString(tracciaFile, Charsets.UTF_8);

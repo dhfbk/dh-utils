@@ -18,13 +18,16 @@ public abstract class LocuzioniAnnotator extends CatAnnotator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LocuzioniAnnotator.class);
 
-    private Set<String> locuzioniSet = new HashSet<>();
+    //    private Set<String> locuzioniSet = new HashSet<>();
+    private Map<String, String> locuzioniMap = new HashMap<>();
     private Set<String> determiners = new HashSet<>();
     private Set<String> posList = new HashSet<>();
     private StatisticsEvent statisticsEvent = new StatisticsEvent();
 
     protected Set<String> locuzioniToCount = new HashSet<>();
     protected Set<String> locuzioniToCollect = new HashSet<>();
+//    private Map<String, String> locuzioniToCollect = new HashMap<>();
+//    private Map<String, String> locuzioniToCount = new HashMap<>();
 
     protected Set<String> locuzioniToSkipLemma = new HashSet<>();
     protected Set<String> locuzioniToSkipAdjectives = new HashSet<>();
@@ -52,6 +55,8 @@ public abstract class LocuzioniAnnotator extends CatAnnotator {
         posList.add("E");
         posList.add("RD");
 
+        Map<String, String> tmpMap = new HashMap<>();
+
         try {
             if (fileName != null) {
                 URL list = Resources.getResource(fileName);
@@ -76,7 +81,13 @@ public abstract class LocuzioniAnnotator extends CatAnnotator {
                         addToSkipLemma = true;
                     }
 
-                    String[] parts = line.toLowerCase().split("\\s+");
+                    String[] tabParts = line.toLowerCase().split("\\t+");
+                    String text = "-";
+                    if (tabParts.length > 1) {
+                        text = tabParts[1].trim();
+                    }
+
+                    String[] parts = tabParts[0].toLowerCase().split("\\s+");
                     StringBuffer buffer = new StringBuffer();
                     buffer.append(" ");
                     for (String part : parts) {
@@ -87,9 +98,11 @@ public abstract class LocuzioniAnnotator extends CatAnnotator {
                     if (index == -1) {
                         if (loadCollect) {
                             locuzioniToCollect.add(finalString);
+                            tmpMap.put(finalString, text);
                         }
                         if (loadCount) {
                             locuzioniToCount.add(finalString);
+                            tmpMap.put(finalString, text);
                         }
                         if (addToSkipLemma) {
                             locuzioniToSkipLemma.add(finalString);
@@ -97,15 +110,16 @@ public abstract class LocuzioniAnnotator extends CatAnnotator {
                         if (addToSkipAdjectives) {
                             locuzioniToSkipAdjectives.add(finalString);
                         }
-//                        locuzioniSet.add(finalString);
                     } else {
                         for (String determiner : determiners) {
                             String s = finalString.replaceAll("\\[art\\]", determiner);
                             if (loadCollect) {
                                 locuzioniToCollect.add(s);
+                                tmpMap.put(s, text);
                             }
                             if (loadCount) {
                                 locuzioniToCount.add(s);
+                                tmpMap.put(s, text);
                             }
                             if (addToSkipLemma) {
                                 locuzioniToSkipLemma.add(s);
@@ -113,7 +127,6 @@ public abstract class LocuzioniAnnotator extends CatAnnotator {
                             if (addToSkipAdjectives) {
                                 locuzioniToSkipAdjectives.add(s);
                             }
-//                            locuzioniSet.add(finalString.replaceAll("\\[art\\]", determiner));
                         }
                     }
                 }
@@ -122,8 +135,17 @@ public abstract class LocuzioniAnnotator extends CatAnnotator {
             e.printStackTrace();
         }
 
-        locuzioniSet.addAll(locuzioniToCollect);
-        locuzioniSet.addAll(locuzioniToCount);
+        for (String s : locuzioniToCollect) {
+            locuzioniMap.put(s, tmpMap.get(s));
+        }
+        for (String s : locuzioniToCount) {
+            locuzioniMap.put(s, tmpMap.get(s));
+        }
+
+//        locuzioniMap.putAll(locuzioniToCollect);
+//        locuzioniMap.putAll(locuzioniToCount);
+//        locuzioniSet.addAll(locuzioniToCollect);
+//        locuzioniSet.addAll(locuzioniToCount);
     }
 
     @Override
@@ -183,7 +205,9 @@ public abstract class LocuzioniAnnotator extends CatAnnotator {
             }
         }
 
-        for (String locuzione : locuzioniSet) {
+        for (Map.Entry<String, String> entry : locuzioniMap.entrySet()) {
+            String locuzione = entry.getKey();
+            String text = entry.getValue();
             boolean skipThisAdj = false;
             boolean skipThisLemma = false;
             if (locuzioniToSkipAdjectives.contains(locuzione)) {
@@ -199,7 +223,7 @@ public abstract class LocuzioniAnnotator extends CatAnnotator {
                 if (skipThisAdj && (value == 2 || value == 3 || value == 6 || value == 7)) {
                     continue;
                 }
-                searchEvents(locuzione, buffers.get(value), begins.get(value), annotation,
+                searchEvents(locuzione, text, buffers.get(value), begins.get(value), annotation,
                         ret, realBegins, jumps.get(value), locuzioniToCount.contains(locuzione), locuzioniToCollect.contains(locuzione));
             }
         }
@@ -208,7 +232,7 @@ public abstract class LocuzioniAnnotator extends CatAnnotator {
         return ret;
     }
 
-    private void searchEvents(String locuzione, StringBuffer buffer, Map<Integer, Integer> begins, Annotation annotation,
+    private void searchEvents(String locuzione, String description, StringBuffer buffer, Map<Integer, Integer> begins, Annotation annotation,
                               List<GenericEvent> ret, Set<Integer> realBegins, Set<Integer> jumps, boolean count, boolean collect) {
         String text = buffer.toString();
         int lastIndex = 0;
@@ -256,7 +280,7 @@ public abstract class LocuzioniAnnotator extends CatAnnotator {
 
                 if (collect) {
                     String eventText = annotation.get(CoreAnnotations.TextAnnotation.class).substring(begin, end);
-                    AnnotationEvent event = new AnnotationEvent(sentenceID, tokenIDs, eventText, "-", begin, end);
+                    AnnotationEvent event = new AnnotationEvent(sentenceID, tokenIDs, eventText, description, begin, end);
                     ret.add(event);
                 }
                 if (count) {

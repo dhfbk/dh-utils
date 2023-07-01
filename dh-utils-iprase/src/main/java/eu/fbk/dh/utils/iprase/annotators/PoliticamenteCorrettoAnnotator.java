@@ -8,6 +8,7 @@ public class PoliticamenteCorrettoAnnotator extends LocuzioniAnnotator {
     public void load() {
         fileName = "politicamente_corretto";
         loadCount = true;
+        loadCollect = true;
         super.load();
     }
 }
